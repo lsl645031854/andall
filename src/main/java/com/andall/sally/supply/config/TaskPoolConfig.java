@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @Author: lsl
- * @Description: 自定义线程池.
+ * @Description: 自定义线程池....
  * @Date: Created on 5:35 下午 2020/3/3
  */
 @Configuration
