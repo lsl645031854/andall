@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <jmxConfigurator/>
+    ​
+    <!-- Example for logging into the build folder of your project -->
+    <springProperty scope="context" name="springAppName" source="spring.application.name" />
+    <springProperty scope="context" name="logLevel" source="logging.root.level" />
+    <property name="LOG_FILE" value="/data/logs/zmshop/" />
+    <property name="JSON_FILE" value="/data/logs/shop/" />
+    <property name="ZIP_FILE" value="/data/logs/shop/" />
+    ​
+    <!-- You can override this to have a custom pattern -->
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%t]){faint} %clr(%-5level) %clr([%logger:%L]){cyan} %clr(:[%X{traceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}]){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+    <!-- Appender to log to console -->
+    <!--打印到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- Minimum logging level to be presented in the console logs -->
+            <level>${logLevel:-INFO}</level>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- Appender to log to file -->
+    <!--打印到log文件，每周滚动一次，大小达到500M分割-->
+    <appender name="flatfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}${springAppName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${ZIP_FILE}%d{yyyy-MM,aux}/${springAppName}.%d{yyyy-ww}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>500MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!--打印json化日志到json文件-->
+    <appender name="jsonfile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${JSON_FILE}${springAppName}.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${ZIP_FILE}%d{yyyy-MM,aux}/${springAppName}.%d{yyyy-MM-dd}.json.gz
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder
+                class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC+8</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "sysTime":"%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "parent": "%X{X-B3-ParentSpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "className": "%logger{40}:%L",
+                        "message": "%message",
+                        "thrown":"%exception{10}",
+                        "level":"%level",
+                        "appName":"${springAppName:-}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+    <!--非生产环境-->
+    <springProfile name="!prod">
+        <root level="${logLevel:-INFO}">
+            <appender-ref ref="console" />
+            <appender-ref ref="flatfile" />
+            <appender-ref ref="jsonfile"/>
+        </root>
+        <!--打印sql语句-->
+        <!--<logger name="com.icare.bracelet.mapper" level="INFO" additivity="false">
+            <appender-ref ref="console" />
+            <appender-ref ref="flatfile" />
+        </logger>-->
+    </springProfile>
+    <!--生产环境-->
+    <springProfile name="prod">
+        <root level="${logLevel:-INFO}">
+            <appender-ref ref="flatfile" />
+            <appender-ref ref="jsonfile"/>
+        </root>
+    </springProfile>
+
+</configuration>
