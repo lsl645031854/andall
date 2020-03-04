@@ -8,6 +8,15 @@ import java.util.concurrent.TimeUnit;
 /**
  * @Author: lsl
  * @Description:
+ *
+ * CyclicBarrier与CountDownLatch的区别：
+ *
+ * CountDownLatch阻塞的是主线程
+ * CountDownLatch的计数器只能使用一次也就是只能递减
+ * CyclicBarrier阻塞的是子线程
+ * CyclicBarrier的计数器可以使用reset()方法重置
+ *
+ *
  * @Date: Created on 10:46 上午 2020/3/4
  */
 public class CountDownLatchTest {
@@ -29,6 +38,17 @@ public class CountDownLatchTest {
         }, "t1");
 
         executorService.submit(() -> {
+            System.out.println("进入t3 线程，并且等待...");
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("t3线程进行后续的执行操作...");
+        }, "t3");
+
+        executorService.submit(() -> {
             System.out.println("进入t2线程。。。");
             try {
                 TimeUnit.SECONDS.sleep(4);
@@ -39,17 +59,6 @@ public class CountDownLatchTest {
             System.out.println("t2线程初始化完毕，通知t3线程继续操作！");
             countDownLatch.countDown();
         }, "t2");
-
-        executorService.submit(() -> {
-            System.out.println("进入t3 线程，并且等待...");
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("t3线程进行后续的执行操作...");
-        }, "t3");
 
         executorService.shutdown();
     }
