@@ -31,9 +31,9 @@ public class CommonRedisHelper {
     public boolean lock(String key, long timeout) {
         String lock = LOCK_PREFIX + key;
         // 利用lambda表达式
-        Object execute = redisTemplate.execute(new RedisCallback<Object>() {
+        Boolean execute = redisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
-            public Object doInRedis(RedisConnection redisConnection) throws DataAccessException {
+            public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException {
                 long expireAt = System.currentTimeMillis() + timeout;
                 Boolean acquire = redisConnection.setNX(lock.getBytes(), String.valueOf(expireAt).getBytes());
                 if (acquire != null && acquire) {
@@ -60,8 +60,9 @@ public class CommonRedisHelper {
         });
 
         if (execute != null) {
-            return (boolean) execute;
+            return execute;
         }
+
         return false;
     }
 }
