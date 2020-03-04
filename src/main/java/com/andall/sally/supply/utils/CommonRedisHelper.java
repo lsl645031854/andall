@@ -24,7 +24,7 @@ public class CommonRedisHelper {
     private static final String LOCK_PREFIX = "redis_lock";
 
     /**
-     * 最终加强分布式锁
+     * 最终加强分布式锁:待修改
      * @param key key值
      * @return 是否获取到
      */
