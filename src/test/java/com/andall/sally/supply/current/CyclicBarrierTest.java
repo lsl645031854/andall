@@ -13,8 +13,8 @@ public class CyclicBarrierTest {
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        CyclicBarrier cb = new CyclicBarrier(2);
-        CountDownLatch cd = new CountDownLatch(2);
+        CyclicBarrier cb = new CyclicBarrier(2); // 阻塞子线程，全部到达某个状态后执行
+        CountDownLatch cd = new CountDownLatch(2); // 阻塞主线程。减到0，主线程执行
 
         executorService.submit(() -> {
             System.out.println("第一个线程准备执行");
