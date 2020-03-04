@@ -25,9 +25,7 @@ public class TaskPoolTest {
 
     @Test
     public void test() throws ExecutionException, InterruptedException {
-        Callable<String> call = () -> {
-            return "123";
-        };
+        Callable<String> call = () -> "123";
 
         Future<String> submit = asyncExecutor.submit(call);
         System.out.println(submit.get());
