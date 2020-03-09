@@ -1,7 +1,7 @@
 package com.andall.sally.supply.interceptor;
 
 import com.andall.sally.supply.context.UserContext;
-import com.andall.sally.supply.entity.User;
+import com.andall.sally.supply.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -31,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (StringUtils.isNotBlank(token)) {
             // 校验token，校验成功，UserContext.setUser
             // 模拟
-            UserContext.setUser(new User("tom", "123456"));
+            UserContext.setUser(new UserEntity());
             return true;
         } else {
             return false;

@@ -1,6 +1,7 @@
 package com.andall.sally.supply.context;
 
 import com.andall.sally.supply.entity.User;
+import com.andall.sally.supply.entity.UserEntity;
 
 /**
  * @Author: lsl
@@ -9,9 +10,9 @@ import com.andall.sally.supply.entity.User;
  */
 public class UserContext {
 
-    private static final ThreadLocal<User> USER_HOLDER = new ThreadLocal<>();
+    private static final ThreadLocal<UserEntity> USER_HOLDER = new ThreadLocal<>();
 
-    public static void setUser(User user) {
+    public static void setUser(UserEntity user) {
         USER_HOLDER.set(user);
     }
 
@@ -19,7 +20,7 @@ public class UserContext {
         USER_HOLDER.remove();
     }
 
-    public static User getUser() {
+    public static UserEntity getUser() {
         return USER_HOLDER.get();
     }
 }
