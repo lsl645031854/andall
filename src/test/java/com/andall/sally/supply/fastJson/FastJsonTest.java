@@ -6,7 +6,9 @@ import com.andall.sally.supply.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
+import org.junit.platform.commons.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,5 +61,14 @@ public class FastJsonTest {
             User user = JSON.parseObject(s1, User.class);
             System.out.println(user);
         });
+    }
+
+    @Test
+    public void test5() {
+       List<String> list = new ArrayList<>();
+       list.add("11");
+       list.add("");
+        long count = list.stream().filter(StringUtils::isBlank).count();
+        System.out.println(count);
     }
 }
