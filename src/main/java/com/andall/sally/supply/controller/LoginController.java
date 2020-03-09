@@ -1,7 +1,9 @@
 package com.andall.sally.supply.controller;
 
+import com.andall.sally.supply.common.RestResponse;
 import com.andall.sally.supply.entity.User;
 import com.andall.sally.supply.event.NoitceEvent;
+import com.andall.sally.supply.exception.UserException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,10 @@ public class LoginController {
 
     @PostMapping("login")
     @ApiOperation("用户登陆")
-    public String login(@RequestBody User user) {
+    public RestResponse login(@RequestBody User user) {
         log.info("登陆用户：{}", user.toString());
         this.applicationEventPublisher.publishEvent(new NoitceEvent(user.getUserName()));
-        return user.getUserName();
+        return RestResponse.success(user.getUserName());
     }
 
 }

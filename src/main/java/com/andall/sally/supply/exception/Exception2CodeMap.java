@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 public class Exception2CodeMap {
 
     private static final ImmutableMap<Object, RestCode> MAP = ImmutableMap.<Object, RestCode>builder()
+            .put(UserException.Type.TOKEN_CHECK_FAILED, RestCode.TOKEN_CHECK_FAILED)
             .build();
 
     public static ImmutableMap<Object, RestCode> getMap() {

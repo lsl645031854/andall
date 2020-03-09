@@ -23,7 +23,12 @@ public class AuthInterceptor implements HandlerInterceptor {
         String requestUri = request.getRequestURI();
         if (requestUri.startsWith("/swagger-ui.html")
             || requestUri.startsWith("/user/login")
-            || requestUri.startsWith("/user/exit")) {
+            || requestUri.startsWith("/user/exit")
+            || requestUri.startsWith("/webjars/")
+            || requestUri.startsWith("/swagger-resources")
+            || requestUri.startsWith("/swagger-resources/configuration/ui")) {
+
+
             return true;
         }
         // 校验token
