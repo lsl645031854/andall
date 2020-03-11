@@ -24,8 +24,8 @@ spring:
   rabbitmq:
     host: 127.0.0.1
     port: 5672
-    username: guest
-    password: guest
+    username: test
+    password: test
     publisher-confirm-type: correlated  #选择确认类型为交互
     publisher-returns: true
     # 开启ACK
@@ -35,3 +35,4 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual
+    virtual-host: test
