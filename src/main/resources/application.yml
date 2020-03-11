@@ -26,9 +26,12 @@ spring:
     port: 5672
     username: guest
     password: guest
-    publisher-confirm-type: correlated
+    publisher-confirm-type: correlated  #选择确认类型为交互
     publisher-returns: true
-    #开启ACK
+    # 开启ACK
+    # AcknowledgeMode.NONE：自动确认
+    # AcknowledgeMode.AUTO：根据情况确认
+    # AcknowledgeMode.MANUAL：手动确认
     listener:
       simple:
         acknowledge-mode: manual

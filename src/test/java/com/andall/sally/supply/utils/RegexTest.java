@@ -64,8 +64,8 @@ public class RegexTest {
 
     @Test
     public void test5() {
-        String content = "456abc123";
-        Pattern pattern = Pattern.compile("[1-9]*(?!abc)");
+        String content = "Windows3.1";
+        Pattern pattern = Pattern.compile("Windows(?!95|98|NT|2000)");
         Matcher matcher = pattern.matcher(content);
         while(matcher.find()){
             System.out.println(matcher.group());
