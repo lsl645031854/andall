@@ -22,8 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestUri = request.getRequestURI();
         if (requestUri.startsWith("/swagger-ui.html")
-            || requestUri.startsWith("/user/login")
-            || requestUri.startsWith("/user/msg")
+            || requestUri.startsWith("/user/")
             || requestUri.startsWith("/user/exit")
             || requestUri.startsWith("/webjars/")
             || requestUri.startsWith("/swagger-resources")

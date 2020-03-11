@@ -3,8 +3,11 @@ package com.andall.sally.supply.controller;
 import com.andall.sally.supply.common.RestResponse;
 import com.andall.sally.supply.constant.MqConstant;
 import com.andall.sally.supply.entity.User;
+import com.andall.sally.supply.entity.UserEntity;
 import com.andall.sally.supply.event.NoitceEvent;
 import com.andall.sally.supply.exception.UserException;
+import com.andall.sally.supply.req.SearchReq;
+import com.andall.sally.supply.service.UserService;
 import com.google.common.collect.Maps;
 import com.rabbitmq.client.Channel;
 import io.swagger.annotations.Api;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +44,9 @@ public class LoginController {
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -62,6 +69,13 @@ public class LoginController {
             message.getMessageProperties().setDelay(10000);
             return message;
         });
+        return RestResponse.success();
+    }
+
+    @PostMapping("all")
+    @ApiOperation("获取全部用户")
+    public RestResponse getAll() {
+        userService.getAll(1);
         return RestResponse.success();
     }
 
