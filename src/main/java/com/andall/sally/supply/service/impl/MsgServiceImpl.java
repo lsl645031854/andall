@@ -29,6 +29,8 @@ public class MsgServiceImpl {
                             type = "x-delayed-message",
                             arguments = {
                                     @Argument(name = "x-delayed-type", value = "topic")}),
+//                    非延时的消息交换机
+//                    exchange = @Exchange(value = MqConstant.IMMEDIATE_EXCHANGE_NODE, type = ExchangeTypes.TOPIC),
                     key = MqConstant.IMMEDIATE_KEY_NODE_ROUTING_KEY
             )
     )
