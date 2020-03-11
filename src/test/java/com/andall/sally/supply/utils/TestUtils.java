@@ -2,10 +2,10 @@ package com.andall.sally.supply.utils;
 
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @Author: lsl
@@ -58,7 +58,22 @@ public class TestUtils {
 
     @Test
     public void test3() {
-        String s = "AA19032CD6D4HA";
+        List<Long> list = new ArrayList<>();
+        list.add(null);
+        list.add(1L);
+        List<Long> collect = list.stream().distinct().filter(Objects::nonNull).collect(Collectors.toList());
+        System.out.println(collect);
+
+        long aNull = Long.parseLong("null");
+        System.out.println(aNull);
+    }
+
+    @Test
+    public void test5() {
+        String string = "11";
+        Pattern pattern = Pattern.compile("[0-9]*");
+        boolean matches = pattern.matcher(string).matches();
+        System.out.println(matches);
     }
 
 }
