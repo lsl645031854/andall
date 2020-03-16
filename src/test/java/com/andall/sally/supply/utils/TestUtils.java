@@ -1,5 +1,6 @@
 package com.andall.sally.supply.utils;
 
+import com.google.common.base.Splitter;
 import org.junit.Test;
 
 import java.util.*;
@@ -81,6 +82,22 @@ public class TestUtils {
         String url = "https://www.baidu.com";
         url = url + String.format("?aId=%s&viewType=%s", 12324, "Share");
         System.out.println(url);
+    }
+
+
+    @Test
+    public void test7() {
+        String ids = "111,222,333 ";
+        List<String> list = Splitter.on(",")
+                .trimResults()
+                .omitEmptyStrings()
+                .splitToList(ids);
+        System.out.println(list);
+    }
+
+    @Test
+    public void test8() {
+
     }
 
 }
