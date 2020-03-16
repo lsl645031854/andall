@@ -50,10 +50,10 @@ public class TestUtils {
 
     @Test
     public void test2() {
-        String s = "AA19032CD6D4HA";
-        if (s.startsWith("AA")) {
-            System.out.println(true);
-        }
+        long l = System.currentTimeMillis();
+        long time = new Date().getTime();
+        System.out.println(l);
+        System.out.println(time);
     }
 
     @Test
@@ -74,6 +74,13 @@ public class TestUtils {
         Pattern pattern = Pattern.compile("[0-9]*");
         boolean matches = pattern.matcher(string).matches();
         System.out.println(matches);
+    }
+
+    @Test
+    public void test6() {
+        String url = "https://www.baidu.com";
+        url = url + String.format("?aId=%s&viewType=%s", 12324, "Share");
+        System.out.println(url);
     }
 
 }
