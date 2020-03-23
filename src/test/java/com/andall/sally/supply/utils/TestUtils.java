@@ -97,7 +97,16 @@ public class TestUtils {
 
     @Test
     public void test8() {
-
+        List<String> list = new ArrayList<>();
+        list.add("tom");
+        list.add("mary");
+        list.add("ACD");
+        List<String> list1 = new ArrayList<>();
+        list1.add("BCB");
+        list1.add("WWA");
+        list1.add("ACD");
+        boolean disjoint = Collections.disjoint(list1, list);
+        System.out.println(disjoint);
     }
 
 }
