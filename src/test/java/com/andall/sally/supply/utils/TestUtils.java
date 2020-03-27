@@ -1,6 +1,7 @@
 package com.andall.sally.supply.utils;
 
 import com.google.common.base.Splitter;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.*;
@@ -107,6 +108,17 @@ public class TestUtils {
         list1.add("ACD");
         boolean disjoint = Collections.disjoint(list1, list);
         System.out.println(disjoint);
+    }
+
+    @Test
+    public void test9() {
+        String s = "宝宝营养基因检测a0002";
+        String substring = StringUtils.substring(s, s.length() - 5, s.length());
+        System.out.println(substring);
+
+        String regex = "[a-zA-Z][A-Za-z0-9]{4}";
+        boolean matches = substring.matches(regex);
+        System.out.println(matches);
     }
 
 }
