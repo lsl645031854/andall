@@ -83,10 +83,21 @@ public class RegexTest {
 
     @Test
     public void test6() {
-        String content = "a000a";
+        String content = "快捷方式点击a000a[131231312]";
         String regex = "[a-zA-Z][A-Za-z0-9]{4}";
         boolean matches = content.matches(regex);
         System.out.println(matches);
+    }
+
+    @Test
+    public void test61() {
+        String content = "KCRT||儿童乳糖耐受能力检测 宝宝免疫系统 代谢能力  安我基因a0001[612828562165]";
+        String regex = "[a-zA-Z][A-Za-z0-9]{4}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        while(matcher.find()){
+            System.out.println(matcher.group());
+        }
     }
 
     @Test
@@ -124,15 +135,6 @@ public class RegexTest {
                 System.out.println(entry.getValue());
             }
         }
-
-
-//        System.out.println(map.get("barcode"));
-//
-//        List<String> barcode = (List<String>) map.get("barcode");
-//        System.out.println(barcode);
-//
-//        List<String> collect = barcode.stream().filter(Objects::nonNull).map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
-//        System.out.println(collect);
     }
 
     @Test
