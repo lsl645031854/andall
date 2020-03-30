@@ -9,6 +9,7 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -21,6 +22,9 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.histogram.DateHistogramInterval;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.junit.Test;
@@ -168,5 +172,24 @@ public class EsTest {
                 .count(countRequest, RequestOptions.DEFAULT);
         long count = countResponse.getCount();
         System.out.println(count);
+    }
+
+    @Test
+    public void test() {
+        SearchRequest searchRequest = new SearchRequest("test");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        searchRequest.source(searchSourceBuilder);
+
+        TermsAggregationBuilder aggregation = AggregationBuilders.terms("by_company")
+                .field("company.keyword");
+
+        //聚合操作
+        AggregationBuilders.dateHistogram("").field("").calendarInterval(DateHistogramInterval.DAY);
+        AggregationBuilders.cardinality("").field("");  // 去重操作
+
+        aggregation.subAggregation(AggregationBuilders.avg("average_age")
+                .field("age"));
+
     }
 }

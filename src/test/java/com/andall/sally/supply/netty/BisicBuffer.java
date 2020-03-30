@@ -1,6 +1,7 @@
 package com.andall.sally.supply.netty;
 
 import java.nio.IntBuffer;
+import java.util.Arrays;
 
 /**
  * @Author: lsl
@@ -15,13 +16,14 @@ public class BisicBuffer {
 
         // 向buffer中存在数据
 
-        for (int i = 0; i < intBuffer.capacity(); i++) {
+        for (int i = 0; i < 3; i++) {
             intBuffer.put(i * 2);
         }
 
         //将buffer读写切换
         intBuffer.flip();
 
+        System.out.println(Arrays.toString(intBuffer.array()));
         while (intBuffer.hasRemaining()) {
             System.out.println(intBuffer.get());
         }

@@ -1,6 +1,8 @@
 package com.andall.sally.supply.utils;
 
+import com.andall.sally.supply.entity.User;
 import com.google.common.base.Splitter;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -119,6 +121,38 @@ public class TestUtils {
         String regex = "[a-zA-Z][A-Za-z0-9]{4}";
         boolean matches = substring.matches(regex);
         System.out.println(matches);
+    }
+
+    @Test
+    public void test10() {
+        List<Long> list = new ArrayList<>();
+        list.add(312434342343L);
+        list.add(312433342345L);
+        list.add(312434342348L);
+        list.add(312434342244L);
+        List<Long> collect = list.stream().filter(item -> !(item.equals(312434342343L))).collect(Collectors.toList());
+        System.out.println(collect);
+    }
+
+
+    @Test
+    public void test11() {
+       String s = "000001";
+
+        long l = Long.parseLong(s);
+
+        System.out.println(l);
+
+        String result = "";
+        result = String.format("%06d", Integer.parseInt("2") + 1);
+        System.out.println(result);
+
+        String numStr = "1.01";
+
+        String regex = "[\\d.]+";
+        boolean matches = numStr.matches(regex);
+        System.out.println(matches);
+
     }
 
 }
