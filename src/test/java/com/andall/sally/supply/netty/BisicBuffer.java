@@ -1,6 +1,7 @@
 package com.andall.sally.supply.netty;
 
 import java.nio.IntBuffer;
+import java.util.Arrays;
 
 /**
  * @Author: lsl
@@ -22,6 +23,7 @@ public class BisicBuffer {
         //将buffer读写切换
         intBuffer.flip();
 
+        System.out.println(Arrays.toString(intBuffer.array()));
         while (intBuffer.hasRemaining()) {
             System.out.println(intBuffer.get());
         }

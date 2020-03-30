@@ -121,4 +121,15 @@ public class TestUtils {
         System.out.println(matches);
     }
 
+    @Test
+    public void test10() {
+        List<Long> list = new ArrayList<>();
+        list.add(312434342343L);
+        list.add(312433342345L);
+        list.add(312434342348L);
+        list.add(312434342244L);
+        List<Long> collect = list.stream().filter(item -> !(item.equals(312434342343L))).collect(Collectors.toList());
+        System.out.println(collect);
+    }
+
 }

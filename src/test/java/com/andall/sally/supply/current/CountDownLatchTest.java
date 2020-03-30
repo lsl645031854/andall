@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CountDownLatchTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         CountDownLatch countDownLatch = new CountDownLatch(2);
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
@@ -60,6 +60,8 @@ public class CountDownLatchTest {
             countDownLatch.countDown();
         }, "t2");
 
+        countDownLatch.await();
+        System.out.println("操作结束");
         executorService.shutdown();
     }
 }
