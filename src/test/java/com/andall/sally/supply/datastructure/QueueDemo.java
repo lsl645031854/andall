@@ -1,20 +1,16 @@
 package com.andall.sally.supply.datastructure;
 
-import org.apache.coyote.http11.filters.VoidInputFilter;
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
-import javax.xml.transform.Source;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.LongBinaryOperator;
 
 /**
  * @Author: lsl
  * @Description:
  * @Date: Created on 13:30 2020/3/21
  */
-public class Date0321 {
+public class QueueDemo {
     /**
      * 数据结构，包括线性结构和非线性结构
      *
@@ -138,5 +134,70 @@ class ArrayQueue{
         }
         front++;
         return arr[front];
+    }
+}
+
+/**
+ * 环形队列
+ */
+class CircleQueue {
+    private int maxSize; // 队列容量
+    // 队列头 front指向队列的第一个元素，初始值为0
+    private int front;
+    // 队列尾部 real指向队列的最后一个元素的后一个元素的位置, 初始值为0
+    private int rear;
+    private int[] arr; // 数据
+
+    public CircleQueue(int maxSize) {
+        this.maxSize = maxSize;
+        arr = new int[maxSize];
+        front = 0; // 初始化为0  指向头部
+        rear = 0; // 初始化为0   指向尾部
+    }
+
+
+    // 判断队列是否满
+    private boolean isFull() {
+        return (rear + 1) % maxSize == front;
+    }
+
+    // 判断队列是否为空
+    private boolean isEmpty() {
+        return rear == front;
+    }
+
+    // 队列中添加数据
+    public void addQueue(int n) {
+        if(isFull()) {
+            System.out.println("当前队列已经满了");
+            return;
+        }
+        // 直接将数据加入
+        arr[rear] = n;
+        // 将real后移
+        rear = (rear + 1) % maxSize;
+    }
+
+    // 从队列中获取数据
+    public int getQueue() {
+        if (isEmpty()) {
+            throw new RuntimeException("数组中无数据");
+        }
+        int value = arr[front];
+        // 将front后移
+        front = (front + 1) % maxSize;
+        return value;
+    }
+
+    //当前队列的有效个数
+    public int size() {
+        return (rear + maxSize - front) % maxSize;
+    }
+
+    //显示队列数据
+    public void showQueue() {
+        for (int i = 0; i < front + size(); i++) {
+            System.out.printf("arr[%d]=%d\n", i % maxSize, arr[i % maxSize]);
+        }
     }
 }
