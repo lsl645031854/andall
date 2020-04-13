@@ -1,6 +1,8 @@
 package com.andall.sally.supply.utils;
 
+import com.andall.sally.supply.entity.User;
 import com.google.common.base.Splitter;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -130,6 +132,16 @@ public class TestUtils {
         list.add(312434342244L);
         List<Long> collect = list.stream().filter(item -> !(item.equals(312434342343L))).collect(Collectors.toList());
         System.out.println(collect);
+    }
+
+
+    @Test
+    public void test11() {
+        Byte b = 1;
+        int i = b.intValue();
+        System.out.println(i);
+        System.out.println(b);
+
     }
 
 }
