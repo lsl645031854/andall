@@ -47,7 +47,7 @@ public class TaskPoolConfig {
     /**
      * 任务装饰器
      */
-    class ContextDecorator implements TaskDecorator {
+    static class ContextDecorator implements TaskDecorator {
         @Override
         public Runnable decorate(Runnable runnable) {
             RequestAttributes context = RequestContextHolder.currentRequestAttributes();
