@@ -137,10 +137,21 @@ public class TestUtils {
 
     @Test
     public void test11() {
-        Byte b = 1;
-        int i = b.intValue();
-        System.out.println(i);
-        System.out.println(b);
+       String s = "000001";
+
+        long l = Long.parseLong(s);
+
+        System.out.println(l);
+
+        String result = "";
+        result = String.format("%06d", Integer.parseInt("2") + 1);
+        System.out.println(result);
+
+        String numStr = "1.01";
+
+        String regex = "[\\d.]+";
+        boolean matches = numStr.matches(regex);
+        System.out.println(matches);
 
     }
 

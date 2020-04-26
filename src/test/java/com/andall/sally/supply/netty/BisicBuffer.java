@@ -16,7 +16,7 @@ public class BisicBuffer {
 
         // 向buffer中存在数据
 
-        for (int i = 0; i < intBuffer.capacity(); i++) {
+        for (int i = 0; i < 3; i++) {
             intBuffer.put(i * 2);
         }
 
