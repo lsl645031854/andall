@@ -7,19 +7,18 @@
     <!-- Example for logging into the build folder of your project -->
     <springProperty scope="context" name="springAppName" source="spring.application.name" />
     <springProperty scope="context" name="logLevel" source="logging.root.level" />
-    <property name="LOG_FILE" value="/data/logs/zmshop/" />
-    <property name="JSON_FILE" value="/data/logs/shop/" />
-    <property name="ZIP_FILE" value="/data/logs/shop/" />
+    <property name="LOG_FILE" value="/Users/shuailingli/logs/supply" />
+    <property name="JSON_FILE" value="/Users/shuailingli/logs/supply" />
+    <property name="ZIP_FILE" value="/Users/shuailingli/logs/supply" />
     ​
     <!-- You can override this to have a custom pattern -->
-    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%t]){faint} %clr(%-5level) %clr([%logger:%L]){cyan} %clr(:[%X{traceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}]){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
-
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%t]){faint} %clr(%-5level) %clr([%logger:%L]){blue} %clr([%X{sessionId}]){faint} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){yellow}" />
     <!-- Appender to log to console -->
     <!--打印到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <!-- Minimum logging level to be presented in the console logs -->
-            <level>${logLevel:-INFO}</level>
+            <level>debug</level>
         </filter>
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -82,15 +81,15 @@
     <!--非生产环境-->
     <springProfile name="!prod">
         <root level="${logLevel:-INFO}">
-            <appender-ref ref="console" />
+<!--            <appender-ref ref="console" />-->
             <appender-ref ref="flatfile" />
             <appender-ref ref="jsonfile"/>
         </root>
         <!--打印sql语句-->
-        <!--<logger name="com.icare.bracelet.mapper" level="INFO" additivity="false">
+        <logger name="com.andall.sally.supply" level="debug">
             <appender-ref ref="console" />
             <appender-ref ref="flatfile" />
-        </logger>-->
+        </logger>
     </springProfile>
     <!--生产环境-->
     <springProfile name="prod">

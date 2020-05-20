@@ -1,4 +1,4 @@
-package com.andall.sally.supply.datastructure;
+package com.andall.sally.supply.datastructure.linkedlist;
 
 import lombok.Getter;
 import lombok.Setter;

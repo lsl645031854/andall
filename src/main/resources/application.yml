@@ -7,32 +7,53 @@ mybatis:
   config-location: classpath:mybatis-config.xml
 
 spring:
+  application:
+    name: my-supply
   datasource:
-    url: jdbc:mysql://dbdev.dnatime.com:3306/shop_user?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/lsl?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useSSL=false
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: zm_shopuser
-    password: 9d6x8VIr0GYwMb95
+    username: root
+    password: Li134055
     type: com.alibaba.druid.pool.DruidDataSource
 
-  redis:
-    database: 0
-    host: redistest.dnatime.com
-    port: 6379
-    password: ReayHs2WMVtn0KalCA0v
-    timeout: 5000
+#  redis:
+#    database: 0
+#    host: redistest.dnatime.com
+#    port: 6379
+#    password: ReayHs2WMVtn0KalCA0v
+#    timeout: 5000
+#
+#  rabbitmq:
+#    host: mqdev.dnatime.com
+#    port: 5672
+#    username: testuser
+#    password: testuser
+#    publisher-confirm-type: correlated  #选择确认类型为交互
+#    publisher-returns: true
+#    publisher-confirms: true
+#    # 开启ACK
+#    # AcknowledgeMode.NONE：自动确认
+#    # AcknowledgeMode.AUTO：根据情况确认
+#    # AcknowledgeMode.MANUAL：手动确认
+#    listener:
+#      simple:
+#        acknowledge-mode: manual
+#        retry:
+#          max-attempts: 3  # 最大重试次数
+#          enabled: true   # 是否开启消费者重试（为false时关闭消费者重试，这时消费端代码异常会一直重复收到消息）
+#          initial-interval: 3000  # 重试间隔时间（单位毫秒）
+#        default-requeue-rejected: false # 重试次数超过上面的设置之后是否丢弃（false不丢弃时需要写相应代码将该消息加入死信队列）
+#    virtual-host: test
+#
+##分布式锁配置
+#redisson:
+#  config:
+#    address: ${spring.redis.host}
+#    password: ${spring.redis.password}
+#    port: ${spring.redis.port}
+#    timeout: ${spring.redis.timeout}
+#    db: 15
 
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: test
-    password: test
-    publisher-confirm-type: correlated  #选择确认类型为交互
-    publisher-returns: true
-    # 开启ACK
-    # AcknowledgeMode.NONE：自动确认
-    # AcknowledgeMode.AUTO：根据情况确认
-    # AcknowledgeMode.MANUAL：手动确认
-    listener:
-      simple:
-        acknowledge-mode: manual
-    virtual-host: test
+luck:
+  num:
+    range: 10

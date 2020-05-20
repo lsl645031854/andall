@@ -24,8 +24,8 @@ public class JwtHelper {
     try {
       Algorithm algorithm = Algorithm.HMAC256(SECRET);
       JWTCreator.Builder builder = JWT.create().withIssuer(ISSUER).withExpiresAt(DateUtils.addDays(new Date(), 1));
-      claims.forEach((k,v) -> builder.withClaim(k, v));
-      return builder.sign(algorithm).toString();
+      claims.forEach(builder::withClaim);
+      return builder.sign(algorithm);
     } catch (IllegalArgumentException | UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
@@ -48,5 +48,6 @@ public class JwtHelper {
 
   public static void main(String[] args) {
     Map<String, String> stringStringMap = verifyToken("123");
+    System.out.println(stringStringMap);
   }
 }

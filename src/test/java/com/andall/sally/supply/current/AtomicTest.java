@@ -27,4 +27,18 @@ public class AtomicTest {
     private int incr() {
         return atomicInteger.incrementAndGet();
     }
+
+    @Test
+    public void test1() {
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+
+        atomicInteger.addAndGet(10);
+        atomicInteger.addAndGet(10);
+
+//        System.out.println(i);
+//
+//        int andAdd = atomicInteger.getAndAdd(10);
+        System.out.println(atomicInteger.get());
+
+    }
 }

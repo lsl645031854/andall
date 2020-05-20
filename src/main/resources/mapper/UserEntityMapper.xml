@@ -19,7 +19,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, channel_id, user_name, mobile, check_mobile_flag, check_mobile_time, gender, 
-    marry, baby, login_status, delete_flag, remark, create_time, update_time
+    marry, baby, login_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 

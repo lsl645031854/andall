@@ -30,7 +30,7 @@ public class NioClient {
                 System.out.println("连接需要时间，客户端不会阻塞，可以做其他的工作...");
             }
         }
-
+        System.out.println("channel :" + socketChannel.hashCode());
         // 连接成功
         String message = "hello 大世界";
 

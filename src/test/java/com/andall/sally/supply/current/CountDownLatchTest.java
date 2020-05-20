@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
  * CyclicBarrier阻塞的是子线程
  * CyclicBarrier的计数器可以使用reset()方法重置
  *
+ * 做减法，减到0 执行
+ *
  *
  * @Date: Created on 10:46 上午 2020/3/4
  */

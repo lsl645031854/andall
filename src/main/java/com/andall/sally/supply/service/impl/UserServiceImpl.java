@@ -1,7 +1,9 @@
 package com.andall.sally.supply.service.impl;
 
+import com.andall.sally.supply.annotation.RedisCache;
 import com.andall.sally.supply.entity.UserEntity;
 import com.andall.sally.supply.mapper.UserEntityMapper;
+import com.andall.sally.supply.req.SearchReq;
 import com.andall.sally.supply.service.UserService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,5 +36,13 @@ public class UserServiceImpl implements UserService {
             getAll(i);
         }
         return null;
+    }
+
+    @Override
+    @RedisCache(type = UserEntity.class, key = "li1", expire = 1800000, cache = true)
+    public List<UserEntity> getUserListByCondition(SearchReq searchReq ) {
+        log.info("测试自定义注解实现  缓存");
+        PageHelper.startPage(searchReq.getPageNum(), searchReq.getPageSize());
+        return userEntityMapper.getAll();
     }
 }

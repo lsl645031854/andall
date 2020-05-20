@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.andall.sally.supply.mapper.PointTemporaryEntityMapper">
+  <resultMap id="BaseResultMap" type="com.andall.sally.supply.entity.PointTemporaryEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="group_id" jdbcType="BIGINT" property="groupId" />
+    <result column="region_block_code" jdbcType="VARCHAR" property="regionBlockCode" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="total_point" jdbcType="INTEGER" property="totalPoint" />
+    <result column="clearing_point" jdbcType="INTEGER" property="clearingPoint" />
+    <result column="expect_remain" jdbcType="INTEGER" property="expectRemain" />
+    <result column="actual_remain" jdbcType="INTEGER" property="actualRemain" />
+    <result column="cleared_point" jdbcType="INTEGER" property="clearedPoint" />
+    <result column="diff" jdbcType="INTEGER" property="diff" />
+    <result column="handle_flag" jdbcType="TINYINT" property="handleFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, group_id, region_block_code, user_id, total_point, clearing_point, expect_remain, 
+    actual_remain, cleared_point, diff, handle_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from z_ph_sh
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByRegion" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ${table} where region_block_code = #{region}
+    limit #{offset}, #{pageSize}
+  </select>
+  <select id="countByRegion" resultType="java.lang.Integer">
+    select count(id) from ${table}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from z_ph_sh
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.andall.sally.supply.entity.PointTemporaryEntity">
+    insert into z_ph_sh (id, group_id, region_block_code, 
+      user_id, total_point, clearing_point, 
+      expect_remain, actual_remain, cleared_point, 
+      diff, handle_flag)
+    values (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{regionBlockCode,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=BIGINT}, #{totalPoint,jdbcType=INTEGER}, #{clearingPoint,jdbcType=INTEGER}, 
+      #{expectRemain,jdbcType=INTEGER}, #{actualRemain,jdbcType=INTEGER}, #{clearedPoint,jdbcType=INTEGER}, 
+      #{diff,jdbcType=INTEGER}, #{handleFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.andall.sally.supply.entity.PointTemporaryEntity">
+    insert into z_ph_cq
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="regionBlockCode != null">
+        region_block_code,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="totalPoint != null">
+        total_point,
+      </if>
+      <if test="clearingPoint != null">
+        clearing_point,
+      </if>
+      <if test="expectRemain != null">
+        expect_remain,
+      </if>
+      <if test="actualRemain != null">
+        actual_remain,
+      </if>
+      <if test="clearedPoint != null">
+        cleared_point,
+      </if>
+      <if test="diff != null">
+        diff,
+      </if>
+      <if test="handleFlag != null">
+        handle_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="regionBlockCode != null">
+        #{regionBlockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPoint != null">
+        #{totalPoint,jdbcType=INTEGER},
+      </if>
+      <if test="clearingPoint != null">
+        #{clearingPoint,jdbcType=INTEGER},
+      </if>
+      <if test="expectRemain != null">
+        #{expectRemain,jdbcType=INTEGER},
+      </if>
+      <if test="actualRemain != null">
+        #{actualRemain,jdbcType=INTEGER},
+      </if>
+      <if test="clearedPoint != null">
+        #{clearedPoint,jdbcType=INTEGER},
+      </if>
+      <if test="diff != null">
+        #{diff,jdbcType=INTEGER},
+      </if>
+      <if test="handleFlag != null">
+        #{handleFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.andall.sally.supply.entity.PointTemporaryEntity">
+    update z_ph_sh
+    <set>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="regionBlockCode != null">
+        region_block_code = #{regionBlockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPoint != null">
+        total_point = #{totalPoint,jdbcType=INTEGER},
+      </if>
+      <if test="clearingPoint != null">
+        clearing_point = #{clearingPoint,jdbcType=INTEGER},
+      </if>
+      <if test="expectRemain != null">
+        expect_remain = #{expectRemain,jdbcType=INTEGER},
+      </if>
+      <if test="actualRemain != null">
+        actual_remain = #{actualRemain,jdbcType=INTEGER},
+      </if>
+      <if test="clearedPoint != null">
+        cleared_point = #{clearedPoint,jdbcType=INTEGER},
+      </if>
+      <if test="diff != null">
+        diff = #{diff,jdbcType=INTEGER},
+      </if>
+      <if test="handleFlag != null">
+        handle_flag = #{handleFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.andall.sally.supply.entity.PointTemporaryEntity">
+    update z_ph_sh
+    set group_id = #{groupId,jdbcType=BIGINT},
+      region_block_code = #{regionBlockCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      total_point = #{totalPoint,jdbcType=INTEGER},
+      clearing_point = #{clearingPoint,jdbcType=INTEGER},
+      expect_remain = #{expectRemain,jdbcType=INTEGER},
+      actual_remain = #{actualRemain,jdbcType=INTEGER},
+      cleared_point = #{clearedPoint,jdbcType=INTEGER},
+      diff = #{diff,jdbcType=INTEGER},
+      handle_flag = #{handleFlag,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

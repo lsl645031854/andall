@@ -8,18 +8,18 @@ package com.andall.sally.supply.constant;
 public class MqConstant {
 
     /**
-     * 即时消息队列
+     * 队列
      */
     public static final String IMMEDIATE_NODE_QUEUE ="immediate.queue";
 
     /**
-     * 即时消息队列EXCHANGE
+     * 交换机
      */
     public static final String IMMEDIATE_EXCHANGE_NODE ="immediate.exchange";
 
 
     /**
-     * 即时消息队列ROUTINGKEY
+     * RoutingKEY
      */
     public static final String IMMEDIATE_KEY_NODE_ROUTING_KEY = "immediate.routing.key";
 }

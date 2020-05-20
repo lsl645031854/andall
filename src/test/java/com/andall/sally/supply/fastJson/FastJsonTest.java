@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +15,11 @@ import java.util.Map;
 /**
  * @Author: lsl
  * @Description:
+ *
+ *      JSON.toJSONString() 对象转json字符串时会field会自动排序，@JSONType(orders = {"id","name","count","price"})，可以自定义排序规则
+ *
+ *      JSON.parseObject(): json字符串转json对象时，json对象和json字符串的顺序不一致
+ *      若需要顺序一致：JSON.parseObject(jsonString, LinkedHashMap.class, Feature.OrderedField);
  * @Date: Created on 4:15 下午 2020/3/3
  */
 @Slf4j
@@ -24,7 +27,7 @@ public class FastJsonTest {
 
     @Test
     public void test1() {
-        User user = User.builder().userName("tom").passWord("asdf").build();
+        User user = User.builder().userName("tom").passWord("password").build();
         String jsonString = JSON.toJSONString(user);
         log.info(jsonString);
     }
@@ -73,35 +76,5 @@ public class FastJsonTest {
         System.out.println(count);
     }
 
-    @Test
-    public void test6() throws Exception {
-        User tom = User.builder().passWord("  海贼  ").userName("tom").age(21).build();
-        System.out.println(tom.toString());
-        trimBean(tom);
-        System.out.println(tom.toString());
-    }
 
-
-    private void trimBean(Object model) throws Exception {
-        //int a = 1/0;
-        Class clazz = model.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.getGenericType().toString().equals("class java.lang.String")) {
-                Method getMethod = clazz.getMethod("get" + getMethodName(field.getName()));
-                String value = (String) getMethod.invoke(model);// 调用getter方法获取属性值
-                if (StringUtils.isNotBlank(value)) {
-                    value = StringUtils.trimToEmpty(value);
-                    field.setAccessible(true);
-                    field.set(model, value);
-                }
-            }
-        }
-    }
-
-    private String getMethodName(String fildeName) throws Exception {
-        byte[] items = fildeName.getBytes();
-        items[0] = (byte) ((char) items[0] - 'a' + 'A');
-        return new String(items);
-    }
 }

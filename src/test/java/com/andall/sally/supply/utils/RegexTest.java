@@ -6,9 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,9 +32,18 @@ public class RegexTest {
     }
 
     @Test
+    public void testNumber() {
+        // 判断手机号
+        String regex = "Jdo\\d{9}";
+        String mobile = "Jdo000000011";
+        boolean matches = mobile.matches(regex);
+        System.out.println(matches);
+    }
+
+    @Test
     public void test1() {
         // 判断手机号
-        String regex = "(1[358][689])\\d{4}(\\d{4})";
+        String regex = "(\\d{3})\\d{4}(\\d{4})";
         String mobile = "13924672341";
         String replace = mobile.replaceAll(regex, "$1****$2");
         System.out.println(replace);
@@ -61,9 +72,20 @@ public class RegexTest {
     }
 
     @Test
+    public void test31() {
+        String content = "22.中国";
+        // 从内容上截取路径数组
+        Pattern pattern = Pattern.compile("[0-9.]*");
+        Matcher matcher = pattern.matcher(content);
+        while(matcher.find()){
+            System.out.println(matcher.group());
+        }
+    }
+
+    @Test
     public void test4() {
-        String content = "abcdefg abced";
-        Pattern pattern = Pattern.compile("(?<=abc)[a-z]*");
+        String content = "abcdefg中国 abced";
+        Pattern pattern = Pattern.compile("(?<=abc)[^\\s]*");
         Matcher matcher = pattern.matcher(content);
         while(matcher.find()){
             System.out.println(matcher.group());
@@ -78,6 +100,46 @@ public class RegexTest {
         while(matcher.find()){
             System.out.println(matcher.group());
         }
+    }
+
+    @Test
+    public void test51() {
+        //获取
+        String s = "我的名字是：${person.name}，年龄为：${person.age}岁 ---> ${person.name}";
+        String regex = "[${]{2}?([a-zA-Z.]+)[}]";
+        //将正则表达式封装在pattern对象
+        Pattern pattern = Pattern.compile(regex);
+        //调用匹配器对象
+        Matcher matcher = pattern.matcher(s);
+        List<String> placeList = new ArrayList<>();
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+            placeList.add(matcher.group());
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("person.name", "tom");
+        map.put("person.age", "18");
+
+        // 占位符和值的映射关系
+        Map<String, String> placeMap = new HashMap<>();
+        for (String place : placeList) {
+            String replace = place.replace("${", "").replace("}", "");
+            String value = map.get(replace);
+            placeMap.put(place, value);
+        }
+
+        String str = finalStr(s, placeMap);
+        System.out.println(str);
+
+    }
+
+    private String finalStr(String s, Map<String, String> placeMap) {
+
+        for (Map.Entry<String, String> entry : placeMap.entrySet()) {
+            s = s.replace(entry.getKey(), entry.getValue());
+        }
+        return s;
     }
 
     @Test
@@ -138,8 +200,39 @@ public class RegexTest {
 
     @Test
     public void test10() {
-        List<String> ls = new ArrayList<>();
-        ls.add("AA1910CAD4B8A6");
-        System.out.println(ls);
+       String name = "李帅领";
+        String reg = "(?<=.)./g";
+        String s = name.replaceAll(reg, "*");
+        System.out.println(s);
+    }
+
+    @Test
+    public void test11() {
+        String name = "李帅领";
+        String reg = "\\S{1}";
+        StringBuffer sb = new StringBuffer();
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(name);
+        int i = 0;
+        while(m.find()){
+            i++;
+            if(i==1)
+                continue;
+            m.appendReplacement(sb, "*");
+        }
+        m.appendTail(sb);
+        System.out.println(sb.toString());
+    }
+    @Test
+    public void test12() {
+        String name = "王323 龄46 1可那看";
+//        String reg = "[龄]{1}[\\d]*";
+        String reg = "(?<=龄)[\\d]*";
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(name);
+        while(m.find()){
+            String group = m.group();
+            System.out.println(group);
+        }
     }
 }

@@ -6,8 +6,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -53,6 +51,7 @@ public class NioServer {
                     SocketChannel socketChannel = serverSocketChannel.accept();
                     // 将当前的socketChannel注册到selector
                     socketChannel.configureBlocking(false);
+                    System.out.println("channel :" + socketChannel.hashCode());
                     socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(512));
                 }
 

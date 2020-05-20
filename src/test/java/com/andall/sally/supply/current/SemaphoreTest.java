@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: lsl
- * @Description:
+ * @Description: 多对多  争车位
  * @Date: Created on 1:25 下午 2020/3/4
  */
 public class SemaphoreTest {

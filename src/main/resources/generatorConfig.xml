@@ -16,8 +16,9 @@
 
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://dbdev.dnatime.com:3306/shop_user?characterEncoding=UTF-8&amp;useSSL=true" userId="zm_shopuser"
-                        password="9d6x8VIr0GYwMb95">
+                        connectionURL="jdbc:mysql://121.196.233.27:3306/lawson_db?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;serverTimezone=Hongkong"
+                        userId="srs"
+                        password="YR_Jjhn_v3jw">
         </jdbcConnection>
 
         <!--生成pojo类存放位置-->
@@ -35,7 +36,7 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名-->
-        <table tableName="u_user" domainObjectName="UserEntity"
+        <table tableName="t_user_group" domainObjectName="UserGroupEntity"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

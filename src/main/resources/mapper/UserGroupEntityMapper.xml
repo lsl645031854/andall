@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.andall.sally.supply.mapper.UserGroupEntityMapper">
+  <resultMap id="BaseResultMap" type="com.andall.sally.supply.entity.UserGroupEntity">
+    <id column="group_id" jdbcType="BIGINT" property="groupId" />
+    <id column="region_block_code" jdbcType="CHAR" property="regionBlockCode" />
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="rest_point" jdbcType="INTEGER" property="restPoint" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="total_come_shop" jdbcType="INTEGER" property="totalComeShop" />
+    <result column="upgrade_date" jdbcType="DATE" property="upgradeDate" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_user" jdbcType="CHAR" property="createUser" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_user" jdbcType="CHAR" property="updateUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    group_id, region_block_code, user_id, rest_point, total_price, total_come_shop, upgrade_date, 
+    create_date, create_user, update_date, update_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.andall.sally.supply.entity.UserGroupEntityKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+      and region_block_code = #{regionBlockCode,jdbcType=CHAR}
+      and user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultType="com.andall.sally.supply.entity.UserGroupEntity">
+    select
+    <include refid="Base_Column_List" />
+    from t_user_group_copy1 where region_block_code = 'cq-lawson'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.andall.sally.supply.entity.UserGroupEntityKey">
+    delete from t_user_group
+    where group_id = #{groupId,jdbcType=BIGINT}
+      and region_block_code = #{regionBlockCode,jdbcType=CHAR}
+      and user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.andall.sally.supply.entity.UserGroupEntity">
+    insert into t_user_group (group_id, region_block_code, user_id, 
+      rest_point, total_price, total_come_shop, 
+      upgrade_date, create_date, create_user, 
+      update_date, update_user)
+    values (#{groupId,jdbcType=BIGINT}, #{regionBlockCode,jdbcType=CHAR}, #{userId,jdbcType=BIGINT}, 
+      #{restPoint,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, #{totalComeShop,jdbcType=INTEGER}, 
+      #{upgradeDate,jdbcType=DATE}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=CHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.andall.sally.supply.entity.UserGroupEntity">
+    insert into t_user_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="regionBlockCode != null">
+        region_block_code,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="restPoint != null">
+        rest_point,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="totalComeShop != null">
+        total_come_shop,
+      </if>
+      <if test="upgradeDate != null">
+        upgrade_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupId != null">
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="regionBlockCode != null">
+        #{regionBlockCode,jdbcType=CHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="restPoint != null">
+        #{restPoint,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalComeShop != null">
+        #{totalComeShop,jdbcType=INTEGER},
+      </if>
+      <if test="upgradeDate != null">
+        #{upgradeDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=CHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.andall.sally.supply.entity.UserGroupEntity">
+    update t_user_group
+    <set>
+      <if test="restPoint != null">
+        rest_point = #{restPoint,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalComeShop != null">
+        total_come_shop = #{totalComeShop,jdbcType=INTEGER},
+      </if>
+      <if test="upgradeDate != null">
+        upgrade_date = #{upgradeDate,jdbcType=DATE},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=CHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=CHAR},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=BIGINT}
+      and region_block_code = #{regionBlockCode,jdbcType=CHAR}
+      and user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.andall.sally.supply.entity.UserGroupEntity">
+    update t_user_group
+    set rest_point = #{restPoint,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      total_come_shop = #{totalComeShop,jdbcType=INTEGER},
+      upgrade_date = #{upgradeDate,jdbcType=DATE},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=CHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=CHAR}
+    where group_id = #{groupId,jdbcType=BIGINT}
+      and region_block_code = #{regionBlockCode,jdbcType=CHAR}
+      and user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

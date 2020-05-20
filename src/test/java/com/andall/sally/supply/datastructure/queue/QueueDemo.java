@@ -1,4 +1,4 @@
-package com.andall.sally.supply.datastructure;
+package com.andall.sally.supply.datastructure.queue;
 
 import org.junit.Test;
 

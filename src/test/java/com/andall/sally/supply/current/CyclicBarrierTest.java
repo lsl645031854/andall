@@ -5,6 +5,7 @@ import java.util.concurrent.*;
 /**
  * @Author: lsl
  * @Description:
+ * 集齐七颗龙珠 召唤神龙
  * @Date: Created on 11:22 上午 2020/3/4
  */
 public class CyclicBarrierTest {

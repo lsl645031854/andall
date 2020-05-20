@@ -5,31 +5,27 @@ import com.andall.sally.supply.constant.MqConstant;
 import com.andall.sally.supply.entity.User;
 import com.andall.sally.supply.entity.UserEntity;
 import com.andall.sally.supply.event.NoitceEvent;
-import com.andall.sally.supply.exception.UserException;
 import com.andall.sally.supply.req.SearchReq;
 import com.andall.sally.supply.service.UserService;
+import com.andall.sally.supply.service.impl.LogService;
 import com.google.common.collect.Maps;
-import com.rabbitmq.client.Channel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: lsl
@@ -49,6 +45,9 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
+    private LogService logService;
+
+    @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @PostMapping("login")
@@ -65,10 +64,13 @@ public class LoginController {
         Map<String, String> param = Maps.newHashMap();
         param.put("name", user.getUserName());
         log.info("发送一条消息。。。。。");
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         this.rabbitTemplate.convertAndSend(MqConstant.IMMEDIATE_EXCHANGE_NODE, MqConstant.IMMEDIATE_KEY_NODE_ROUTING_KEY, param, message -> {
             message.getMessageProperties().setDelay(10000);
+            message.getMessageProperties().setHeader("count", 1);
+            message.getMessageProperties().setCorrelationId(uuid);
             return message;
-        });
+        }, new CorrelationData(uuid));
         return RestResponse.success();
     }
 
@@ -79,4 +81,15 @@ public class LoginController {
         return RestResponse.success();
     }
 
+    @PostMapping("getList")
+    public RestResponse getList(@RequestBody SearchReq searchReq) {
+        List<UserEntity> userListByCondition = userService.getUserListByCondition(searchReq);
+        return RestResponse.success(userListByCondition);
+    }
+
+    @GetMapping("log")
+    public RestResponse log () {
+        logService.log();
+        return RestResponse.success();
+    }
 }
