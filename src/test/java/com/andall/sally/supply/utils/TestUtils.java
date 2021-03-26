@@ -12,6 +12,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -136,12 +137,8 @@ public class TestUtils {
 
     @Test
     public void test7() {
-        String ids = "111,222,333 ";
-        List<String> list = Splitter.on(",")
-                .trimResults()
-                .omitEmptyStrings()
-                .splitToList(ids);
-        System.out.println(list);
+        String jsonString = JSON.toJSONString(null);
+        System.out.println(jsonString);
     }
 
     @Test
@@ -461,11 +458,7 @@ public class TestUtils {
 
     @Test
     public void testObj() {
-        String region = "sh-lawson";
 
-        String prefix = StringUtils.substringBefore(region, "-");
-
-        System.out.println(prefix);
     }
 
     @Test
@@ -486,5 +479,25 @@ public class TestUtils {
         user.setMember(false);
 
         System.out.println(JSON.toJSONString(user, SerializerFeature.WriteMapNullValue));
+    }
+
+    public static void main(String[] args) {
+        SFTPConstants c = new SFTPConstants("121.196.233.27", "22", "lawson-poshub",
+                "", "Ea0nS197k1");
+        SFTPChannelUtil util = new SFTPChannelUtil(c);
+        try {
+            // ChannelSftp sftp = sign.getChannel();
+            // System.err.println(sftp);
+
+//			boolean boo = util.fileUpload(new File(
+//					"/Users/soushihisashi/Desktop/蜡笔小新.jpg"),
+//					"/order");
+//            util.rename("APP_ORDER_01_20210303.json", "/order/backup/APP_ORDER_01_20210303_111.json", "/order");
+//            util.getChannel().disconnect();
+            boolean fileExist = util.isFileExist("/order/APP_ORDER_01_2021030211.json");
+            System.out.println(fileExist);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

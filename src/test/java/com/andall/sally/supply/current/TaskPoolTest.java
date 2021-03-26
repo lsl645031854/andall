@@ -4,6 +4,7 @@ import com.andall.sally.supply.annotation.MsgTypeEnum;
 import com.andall.sally.supply.entity.User;
 import com.andall.sally.supply.handle.BaseMsgHandler;
 import com.andall.sally.supply.strategy.MsgStrategy;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class TaskPoolTest {
 
     @Autowired
@@ -66,14 +68,12 @@ public class TaskPoolTest {
 
     @Test
     public void test1() {
-        User user = new User();
 
         for (int i = 0; i < 10; i++) {
-            int finalI = i;
-            asyncExecutor.submit(() -> user.setAge(finalI));
-            asyncExecutor.shutdown();
+            asyncExecutor.submit(() -> {
+                log.info("策划。。。。" + Thread.currentThread().getId());
+            });
         }
-        System.out.println(user.getAge());
     }
 
     @Test

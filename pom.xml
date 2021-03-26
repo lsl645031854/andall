@@ -216,7 +216,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.6.10</version>
+            <version>5.5.9</version>
         </dependency>
 
         <dependency>
@@ -271,6 +271,13 @@
             <groupId>com.vdurmont</groupId>
             <artifactId>emoji-java</artifactId>
             <version>5.1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.55</version>
         </dependency>
 
 
