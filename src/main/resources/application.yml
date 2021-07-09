@@ -53,7 +53,10 @@ spring:
 #    port: ${spring.redis.port}
 #    timeout: ${spring.redis.timeout}
 #    db: 15
-
 luck:
   num:
     range: 10
+kafka:
+  server:
+    host: localhost:9092
+    consumer-group-id: testGroup

@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SpinLockDemo {
 
     //原子引用线程
-    private AtomicReference<Thread> atomicReference = new AtomicReference<>();
+    private final AtomicReference<Thread> atomicReference = new AtomicReference<>();
 
     private void myLock() {
         Thread thread = Thread.currentThread();

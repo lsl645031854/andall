@@ -23,7 +23,7 @@ public class CyclicBarrierTest {
                 cb.await();
                 cd.countDown();
                 System.out.println("第一个线程执行");
-            } catch (InterruptedException | BrokenBarrierException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -34,12 +34,13 @@ public class CyclicBarrierTest {
                 cb.await();
                 cd.countDown();
                 System.out.println("第二个线程执行");
-            } catch (InterruptedException | BrokenBarrierException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
         cd.await();
         System.out.println("主线程");
+        executorService.shutdown();
     }
 }

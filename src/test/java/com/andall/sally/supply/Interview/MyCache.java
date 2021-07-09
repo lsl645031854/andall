@@ -22,7 +22,7 @@ public class MyCache {
 
             //暂停一会模拟写入的而过程
             try {
-                TimeUnit.MILLISECONDS.sleep(300);
+                TimeUnit.MILLISECONDS.sleep(3000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -55,5 +55,14 @@ public class MyCache {
 
     public void clear() {
         map.clear();
+    }
+
+    public static void main(String[] args) {
+        MyCache myCache = new MyCache();
+        new Thread(() -> myCache.put("a", "a"), "W1").start();
+        new Thread(() -> myCache.put("b", "b"), "W2").start();
+        new Thread(() -> myCache.get("a"), "R1").start();
+        new Thread(() -> myCache.get("a"), "R2").start();
+        new Thread(() -> myCache.get("a"), "R3").start();
     }
 }

@@ -13,8 +13,10 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.jpedal.parser.shape.S;
 import org.junit.Test;
 
+import java.beans.PropertyDescriptor;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -240,6 +242,31 @@ public class promotionTest {
         System.out.println(strings1);
         System.out.println(strings2);
         System.out.println(strings);
+    }
+
+    @Test
+    public void testAnnotation1() throws Exception {
+        User user = new User();
+        user.setAge(12);
+        user.setBirthday(new Date());
+        user.setUserName("tom");
+
+        Class<? extends User> aClass = user.getClass();
+
+        Field field = aClass.getDeclaredField("age");
+        field.setAccessible(true);
+        Object o = field.get(user);
+        System.out.println(o);
+
+        PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), aClass);
+        Method readMethod = descriptor.getReadMethod();
+        Object invoke = readMethod.invoke(user);
+        System.out.println(invoke);
+
+//        Method getUserName = aClass.getDeclaredMethod("getUserName");
+//        Object invoke = getUserName.invoke(user);
+//        System.out.println(invoke);
+//        System.out.println(invoke.getClass().isAssignableFrom(String.class));
     }
 
 }

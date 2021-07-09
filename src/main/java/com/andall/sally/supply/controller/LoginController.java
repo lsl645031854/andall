@@ -8,6 +8,7 @@ import com.andall.sally.supply.event.NoitceEvent;
 import com.andall.sally.supply.req.SearchReq;
 import com.andall.sally.supply.service.UserService;
 import com.andall.sally.supply.service.impl.LogService;
+import com.andall.sally.supply.utils.KafkaSendUtil;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,11 +18,7 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +47,9 @@ public class LoginController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private KafkaSendUtil kafkaSendUtil;
+
     @PostMapping("login")
     @ApiOperation("用户登陆")
     public RestResponse login(@RequestBody User user) {
@@ -71,6 +71,14 @@ public class LoginController {
             message.getMessageProperties().setCorrelationId(uuid);
             return message;
         }, new CorrelationData(uuid));
+        return RestResponse.success();
+    }
+
+    @GetMapping("kafkaMsg")
+    @ApiOperation("发送消息")
+    public RestResponse sendKafkaMsg(@RequestParam("msg") String msg) {
+        log.info("开始进行消费: {}", msg);
+        kafkaSendUtil.sendMessage("test", msg);
         return RestResponse.success();
     }
 

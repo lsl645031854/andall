@@ -10,10 +10,35 @@ import java.util.List;
 
 /**
  * @Author: lsl
- * @Description:
+ * @Description: 算法
  * @Date: Created on 14:47 2020/9/21
  */
 public class Algorithm {
+
+
+    @Test // 分治算法 汉诺塔
+    public void hanoiTowerTest() {
+        int num = 5; // 表示5的圆盘
+        char a = 'a'; // 塔a
+        char b = 'b'; // 塔b
+        char c = 'c'; // 塔c
+        hanoiTower(num, a, b, c);
+    }
+
+    private void hanoiTower(int num, char a, char b, char c) {
+        if (num == 1) {
+            System.out.println("第1个盘子从" + a + "-->" + c);
+        } else {
+            // 可以看作 是两个盘子，1：最下面是一个盘子 2：上面的所有盘子
+            // 1.先把最上面的所有盘子 a -> b,移动过程会使用c
+            hanoiTower(num - 1, a, c, b);
+            // 2.把最下面的盘子 a -> c
+            System.out.println("第" + num + "个盘子从" + a + "-->" + c);
+            // 3.把b塔的所有盘子 b -> c
+            hanoiTower(num - 1, b, a, c);
+
+        }
+    }
 
 
     @Test // 动态规划

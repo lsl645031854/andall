@@ -1,16 +1,12 @@
 package com.andall.sally.supply.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.andall.sally.supply.entity.User;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -105,5 +101,31 @@ public class YouRenTest {
         } else {
             System.out.println("2222");
         }
+    }
+
+    @Test
+    public void testAdd() {
+        int point = 0;
+        System.out.println(point);
+        point = addPoint(10);
+        System.out.println(point);
+    }
+
+    private Integer addPoint(int point) {
+        return point + 100;
+    }
+
+    @Test
+    public void testHttp() {
+        // https://apis.map.qq.com/ws/distance/v1/matrix/
+        // mode=walking&from=31.169172%2C121.365291&to=31.14573%2C121.43644&key=44FBZ-WIP3X-F6W4R-TBK3O-RZYVK-ZTBWL&callback=jsonp_13b64e046df85e0
+        Map<String, String> map = new HashMap<>();
+        map.put("mode", "walking");
+        map.put("from", "31.169172,121.365291");
+        map.put("to", "31.14573,121.43644");
+        map.put("key", "44FBZ-WIP3X-F6W4R-TBK3O-RZYVK-ZTBWL");
+//        map.put("callback", "jsonp_13b64e046df85e0");
+        String s = HttpClientUtils.doGet("https://apis.map.qq.com/ws/distance/v1/matrix", map);
+        System.out.println(s);
     }
 }

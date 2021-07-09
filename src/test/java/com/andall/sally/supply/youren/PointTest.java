@@ -8,14 +8,19 @@ import com.google.common.collect.Maps;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jpedal.parser.shape.S;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
@@ -211,4 +216,47 @@ public class PointTest {
         System.out.println(disjunction);
     }
 
+    @Test
+    public void testBigDecimal() {
+        Calendar acceptTimeOut = Calendar.getInstance();
+        //for dev
+//            acceptTimeOut.add(Calendar.MINUTE, -10);
+        acceptTimeOut.add(Calendar.HOUR_OF_DAY, -1);
+        System.out.println(acceptTimeOut.getTime());
+
+        String orderNo = "11521042849100300001";
+        int length = orderNo.length();
+
+        System.out.println(orderNo.substring(length - 16));
+
+        System.out.println(null + "00000");
+
+        System.out.println(new BigDecimal("0.65"));
+    }
+
+    @Test
+    public void testIf() {
+        List<String> list = new ArrayList<>();
+        String s = list.get(0);
+        System.out.println(s);
+    }
+
+    @Test
+    public void test5() {
+        String content = "010000";
+//        char[] chars = content.toCharArray();
+//        chars[2] = '1';
+//        String s = String.valueOf(chars);
+//        System.out.println(s);
+
+        Pattern pattern = Pattern.compile("[01]");
+        Matcher matcher = pattern.matcher(content);
+        List<String> list = new ArrayList<>();
+        while(matcher.find()){
+            list.add(matcher.group());
+        }
+        list.set(2, "1");
+        String collect = String.join("", list);
+        System.out.println(collect);
+    }
 }
