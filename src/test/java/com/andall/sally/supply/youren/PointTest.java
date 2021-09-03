@@ -1,20 +1,29 @@
 package com.andall.sally.supply.youren;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.andall.sally.supply.entity.PointTemporaryEntity;
 import com.andall.sally.supply.entity.UserGroupEntity;
 import com.andall.sally.supply.mapper.PointTemporaryEntityMapper;
 import com.andall.sally.supply.mapper.UserGroupEntityMapper;
 import com.google.common.collect.Maps;
 import com.vdurmont.emoji.EmojiParser;
+import io.swagger.models.auth.In;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.jpedal.parser.shape.D;
 import org.jpedal.parser.shape.S;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StopWatch;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -258,5 +267,98 @@ public class PointTest {
         list.set(2, "1");
         String collect = String.join("", list);
         System.out.println(collect);
+    }
+
+    @Test
+    public void testDate() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(format.format(new Date(1685513833L)));
+
+        long time1 = new Date().getTime();
+        System.out.println(time1);
+        TimeUnit.SECONDS.sleep(3);
+        long time2 = new Date().getTime();
+        System.out.println(time2);
+
+        long between = DateUtil.between(new Date(time2), new Date(time1), DateUnit.SECOND);
+        System.out.println(between);
+    }
+
+    @Test
+    public void testJson() {
+        String params = "timestamp=1627901047300&nonce=aaaaaa&signature=da3f0af30de1bac68ad377d2a2a0c3bb21ad1ad0&a=123";
+
+        System.out.println(JSON.toJSONString(params));
+
+        String[] split = params.split("&");
+        List<String> excludeParams = new ArrayList<>();
+        excludeParams.add("signature");
+        excludeParams.add("nonce");
+        excludeParams.add("timestamp");
+
+        String collect =
+                Stream.of(split).filter(param -> !param.contains("signature")).sorted().collect(Collectors.joining("&"));
+        System.out.println(collect);
+    }
+
+    @Test
+    public void testS() throws Exception {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        TimeUnit.SECONDS.sleep(2);
+        stopWatch.stop();
+        long totalTimeMillis = stopWatch.getTotalTimeMillis();
+        System.out.println(totalTimeMillis);
+    }
+
+    @Test
+    public void testBig() {
+        BigDecimal b1 = new BigDecimal(10);
+        BigDecimal b2 = new BigDecimal(8);
+        System.out.println(b1.compareTo(b2) <= 0);
+
+        System.out.println(DateUtils.addDays(new Date(), 1));
+    }
+
+    @Test
+    public void testInteger() {
+//        Integer integer = Integer.parseInt("1.6");
+        int integer = Double.valueOf("1.667").intValue();
+        System.out.println(integer);
+    }
+
+    @Test
+    public void testDateFormat() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parse = format.parse("2021-08-27 17:31:32");
+        String s = dateFormat(new Date(), parse, DateUnit.SECOND);
+        System.out.println(s);
+    }
+
+    private String dateFormat(Date now, Date date, DateUnit unit) {
+
+        long var1 = DateUtil.between(date, now,unit);
+        switch (unit) {
+            case SECOND:
+                if (var1 > 60) {
+                    return dateFormat(date, now, DateUnit.MINUTE);
+                } else {
+                    return var1 + "秒前";
+                }
+            case MINUTE:
+                if (var1 > 60) {
+                    return dateFormat(date, now, DateUnit.HOUR);
+                } else {
+                    return var1 + "分钟前";
+                }
+            case HOUR:
+                if (var1 > 24) {
+                    return "1天前";
+                } else {
+                    return "1小时前";
+                }
+            default:
+        }
+        return "";
     }
 }
