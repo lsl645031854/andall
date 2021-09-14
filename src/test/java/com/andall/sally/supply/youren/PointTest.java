@@ -329,7 +329,6 @@ public class PointTest {
 
     @Test
     public void testInteger1() {
-//        Integer integer = Integer.parseInt("1.6");
         double integer = Double.parseDouble("1.000");
         System.out.println(integer);
         System.out.println((int)integer);
