@@ -328,6 +328,39 @@ public class PointTest {
     }
 
     @Test
+    public void testInteger1() {
+//        Integer integer = Integer.parseInt("1.6");
+        double integer = Double.parseDouble("1.000");
+        System.out.println(integer);
+        System.out.println((int)integer);
+        System.out.println(integer > (int)integer );
+    }
+
+    @Test
+    public void testStr() {
+    	String build = new StringBuilder().append("阿里").append("巴巴").toString();
+    	String build1 = new StringBuilder().append("a").append("b").toString();
+    	String build2 = "ab";
+	    System.out.println(build == build1);
+	    System.out.println(build == build2);
+	    System.out.println(build == build.intern());
+
+	    String s1 = "hello" + "word";
+	    String s2 = "helloword";
+	    System.out.println(s1 == s2);
+
+	    String str1 = new StringBuilder("计算机").append("软件").toString();
+	    System.out.println(str1.intern() == str1);
+
+	    String str2 = new StringBuilder("ja").append("va").toString();
+	    System.out.println(str2.intern() == str2);
+
+	    String string = new String("ab") + new String("c");
+	    String string1 = "abc";
+	    System.out.println(string.intern() == string1);
+    }
+
+    @Test
     public void testDateFormat() throws Exception {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date parse = format.parse("2021-08-27 17:31:32");

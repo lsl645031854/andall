@@ -42,14 +42,14 @@ public class TaskPoolTest {
         Future<String> submit = asyncExecutor.submit(call);
         System.out.println(submit.get());
 
-        ThreadPoolExecutor threadPoolExecutor = asyncExecutor.getThreadPoolExecutor();
-        System.out.println("提交任务数"+threadPoolExecutor.getTaskCount());
-        System.out.println("完成任务数"+threadPoolExecutor.getCompletedTaskCount() );
-        System.out.println("当前有"+threadPoolExecutor.getActiveCount()+"个线程正在处理任务");
-        System.out.println("还剩"+threadPoolExecutor.getQueue().size()+"个任务");
-        System.out.println("当前可用队列长度"+threadPoolExecutor.getQueue().remainingCapacity());
+//        ThreadPoolExecutor threadPoolExecutor = asyncExecutor.getThreadPoolExecutor();
+//        System.out.println("提交任务数"+threadPoolExecutor.getTaskCount());
+//        System.out.println("完成任务数"+threadPoolExecutor.getCompletedTaskCount() );
+//        System.out.println("当前有"+threadPoolExecutor.getActiveCount()+"个线程正在处理任务");
+//        System.out.println("还剩"+threadPoolExecutor.getQueue().size()+"个任务");
+//        System.out.println("当前可用队列长度"+threadPoolExecutor.getQueue().remainingCapacity());
 
-//        asyncExecutor.shutdown();
+        asyncExecutor.shutdown();
         Callable<String> call1 = () -> "456";
         Future<String> submit1 = asyncExecutor.submit(call1);
         System.out.println(submit1.get());
