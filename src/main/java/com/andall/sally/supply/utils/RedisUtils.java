@@ -319,7 +319,7 @@ public class RedisUtils {
      */
     public boolean sHasKey(String key,Object value){
         try {
-            return redisTemplate.opsForSet().isMember(key, value);
+            return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(key, value));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -348,7 +348,7 @@ public class RedisUtils {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSetAndTime(String key,long time,Object...values) {
+    public long sSetAndTime(String key, long time, Object...values) {
         try {
             Long count = redisTemplate.opsForSet().add(key, values);
             if(time>0) expire(key, time);

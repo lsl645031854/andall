@@ -225,11 +225,11 @@
             <version>5.5.9</version>
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>com.andall.starter</groupId>
             <artifactId>my-demo-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on java实现基于PKCS7Padding填充方式的AES加解密 -->
         <dependency>

@@ -31,11 +31,13 @@ public class HuToolTest {
 
     @Test
     public void test2() {
-        String string = RandomUtil.randomString(4);
+        String string = RandomUtil.randomString(5);
         System.out.println(string);
 
         String string1 = RandomUtil.randomString("m9UM!pNbj^q_xxKa", 20);
         System.out.println(string1);
     }
+    
+   
 
 }

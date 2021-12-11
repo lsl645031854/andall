@@ -9,11 +9,13 @@ package com.andall.sally.supply.handle;
 import com.andall.sally.supply.annotation.MsgTypeEnum;
 import com.andall.sally.supply.annotation.TypeAnnotation;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @TypeAnnotation(value = MsgTypeEnum.SYS_MSG)
-public class SysMsgHandler implements BaseMsgHandler {
+public class SysMsgHandler  extends BaseHandler {
     @Override
+    @Transactional
     public void handleMsg(String content) {
         System.out.println("This is sysMsg. Detail msg information is :" + content);
     }

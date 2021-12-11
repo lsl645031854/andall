@@ -10,11 +10,17 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -475,29 +481,74 @@ public class TestUtils {
 
         User user = new User();
         user.setUserName("123");
-        user.setAge(null);
+        user.setAge(0);
         user.setMember(false);
 
         System.out.println(JSON.toJSONString(user, SerializerFeature.WriteMapNullValue));
     }
 
-    public static void main(String[] args) {
-        SFTPConstants c = new SFTPConstants("121.196.233.27", "22", "lawson-poshub",
-                "", "Ea0nS197k1");
-        SFTPChannelUtil util = new SFTPChannelUtil(c);
-        try {
-            // ChannelSftp sftp = sign.getChannel();
-            // System.err.println(sftp);
 
-//			boolean boo = util.fileUpload(new File(
-//					"/Users/soushihisashi/Desktop/蜡笔小新.jpg"),
-//					"/order");
-//            util.rename("APP_ORDER_01_20210303.json", "/order/backup/APP_ORDER_01_20210303_111.json", "/order");
-//            util.getChannel().disconnect();
-            boolean fileExist = util.isFileExist("/order/APP_ORDER_01_2021030211.json");
-            System.out.println(fileExist);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public <T> List<T> getData(Class<T> tClass) throws Exception {
+        List<T> list = new ArrayList<>();
+        T t = tClass.newInstance();
+        list.add(t);
+        return list;
+    }
+    
+    
+    public static void main(String[] args) {
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println("当前时间:  "+now);
+        
+        
+        
+        //当天的零点
+        System.out.println("当天的零点:  "+ LocalDateTime.of(now.toLocalDate(), LocalTime.MIN));
+        
+        //当天的最后时间
+        System.out.println("当天的最后时间:  "+LocalDateTime.of(now.toLocalDate(), LocalTime.MAX));
+    
+        //时间格式
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        System.out.println("formate: "+ LocalDateTime.of(now.toLocalDate(), LocalTime.MAX).format(formatter));
+        
+        //最近的五分钟点位
+        Integer minute = now.getMinute();
+        minute = minute/5*5;
+        System.out.println("最近的五分钟点位:  "+LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(), minute, 0));
+        
+        //Date转为LocalDateTime
+        Date date = new Date();
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        System.out.println("Date转为LocalDateTime: "+instant.atZone(zoneId).toLocalDateTime());
+    }
+    
+    @Test
+    public void testNull() {
+        List<String> list = new ArrayList<>();
+        
+        list.forEach(s -> {
+            System.out.println(s);
+                }
+        );
+        
+        if (CollectionUtils.isEmpty(list)) {
+            System.out.println(11);
         }
     }
+    
+    @Test
+    public void test112() {
+        
+        
+        buildUser(null);
+        
+    }
+    
+    private void buildUser(Integer age) {
+        User user = new User();
+        user.setAge(age);
+    }
+
 }

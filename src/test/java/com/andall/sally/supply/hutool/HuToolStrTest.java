@@ -1,6 +1,7 @@
 package com.andall.sally.supply.hutool;
 
 import cn.hutool.core.util.StrUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 /**
@@ -16,7 +17,7 @@ public class HuToolStrTest {
         String template = "{}爱{}，就像老鼠爱大米";
         String str = StrUtil.format(template, "我", "你");
         System.out.println(str);
-
+    
     }
 
 }
