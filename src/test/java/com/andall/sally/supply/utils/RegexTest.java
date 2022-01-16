@@ -31,6 +31,16 @@ public class RegexTest {
         System.out.println(matches);
     }
 
+
+    @Test
+    public void test111() {
+        // 判断手机号
+        String regex = "^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{8,}$";
+        String mobile = "1111111@@";
+        boolean matches = mobile.matches(regex);
+        System.out.println(matches);
+    }
+
     @Test
     public void testNumber() {
         // 判断手机号

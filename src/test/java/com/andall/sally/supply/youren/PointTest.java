@@ -329,10 +329,23 @@ public class PointTest {
 
     @Test
     public void testInteger1() {
-        double integer = Double.parseDouble("1.000");
-        System.out.println(integer);
-        System.out.println((int)integer);
-        System.out.println(integer > (int)integer );
+        String s1 = new String("hello");
+
+        String s2 = "hello";
+
+        String s3 = new String("hello");
+
+        System.out.println(s1 == s2); // false、
+
+        System.out.println(s1.equals(s2)); // true
+
+        System.out.println(s1 == s3); //false
+
+        System.out.println("**********************");
+        String s0 = "ab";
+        final String s11 = "b";
+        String s22 = "a" + s11;
+        System.out.println((s0 == s22)); //result = true
     }
 
     @Test
@@ -352,11 +365,25 @@ public class PointTest {
 	    System.out.println(str1.intern() == str1);
 
 	    String str2 = new StringBuilder("ja").append("va").toString();
+        String str3 = "java";
 	    System.out.println(str2.intern() == str2);
+	    System.out.println(str2.intern() == str3);
+
+        System.out.println();
 
 	    String string = new String("ab") + new String("c");
 	    String string1 = "abc";
 	    System.out.println(string.intern() == string1);
+
+    }
+
+    @Test
+    public void testInt() {
+        String str2 = new String("str") + new String("01");
+        str2.intern();
+        String str1 = "str01";
+        System.out.println(str2 == str1);
+        System.out.println(str2.equals(str1));
     }
 
     @Test
@@ -392,5 +419,76 @@ public class PointTest {
             default:
         }
         return "";
+    }
+    // 不知大
+
+    @Test
+    public void testCal() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = addDay(new Date(), 0, false);
+        System.out.println(simpleDateFormat.format(date));
+    }
+
+    /**
+     * 加减天数.
+     * @param date date
+     * @param addDay 加减天数
+     * @param timeFlag true: 23:59:59  false: 00:00:00
+     */
+    public static Date addDay(Date date, int addDay, boolean timeFlag) {
+        try {
+            Calendar cd = Calendar.getInstance();
+            cd.setTime(date);
+            cd.add(Calendar.DATE, addDay); //增加天数
+            if (timeFlag) {
+                fillTime(cd);
+            } else {
+                cutTime(cd);
+            }
+            return cd.getTime();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 开始时间 00:00:00
+     */
+    private static void cutTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMinimum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
+        cal.set(Calendar.MILLISECOND, cal.getActualMinimum(Calendar.MILLISECOND));
+    }
+
+    /**
+     * 结束时间 23:59:59
+     */
+    private static void fillTime(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal.getActualMaximum(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal.getActualMaximum(Calendar.SECOND));
+        cal.set(Calendar.MILLISECOND, cal.getActualMaximum(Calendar.MILLISECOND));
+    }
+
+    /**
+     * 两个时间间隔.
+     */
+    public static int getBetweenDays(Date d1, Date d2) {
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(d1);
+        c2.setTime(d2);
+        if (c1.after(c2)) {
+            c1.setTime(d2);
+            c2.setTime(d1);
+        }
+        int betweenYears = c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR);
+        int betweenDays = c2.get(Calendar.DAY_OF_YEAR) - c1.get(Calendar.DAY_OF_YEAR);
+        for (int i = 0; i < betweenYears; i++) {
+            betweenDays += c1.getActualMaximum(Calendar.DAY_OF_YEAR);
+            c1.set(Calendar.YEAR, (c1.get(Calendar.YEAR) + 1));
+        }
+        return betweenDays;
     }
 }

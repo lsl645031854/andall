@@ -19,6 +19,7 @@ public class ReentrantLockTest {
         };
         new Thread(r).start();
 
+        lock.unlock();
     }
 
 }
