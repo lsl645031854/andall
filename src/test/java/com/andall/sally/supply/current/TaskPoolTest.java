@@ -58,7 +58,7 @@ public class TaskPoolTest {
     @Test
     public void testStrategy() throws Exception {
         MsgTypeEnum msgTypeEnum = MsgTypeEnum.getMsgEnum("chatMsg");
-        if (msgTypeEnum == null) {
+               if (msgTypeEnum == null) {
             System.out.println("类型不存在......");
             return;
         }

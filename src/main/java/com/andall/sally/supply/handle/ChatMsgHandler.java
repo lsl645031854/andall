@@ -9,11 +9,13 @@ package com.andall.sally.supply.handle;
 import com.andall.sally.supply.annotation.MsgTypeEnum;
 import com.andall.sally.supply.annotation.TypeAnnotation;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @TypeAnnotation(value = MsgTypeEnum.CHAT_MSG)
-public class ChatMsgHandler implements BaseMsgHandler {
+public class ChatMsgHandler extends BaseHandler {
     @Override
+    @Transactional
     public void handleMsg(String content) {
         System.out.println("This is chatMsg. Detail msg information is :" + content);
     }

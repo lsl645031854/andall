@@ -59,6 +59,12 @@ import java.util.Map;
 /**
  * @Author: lsl
  * @Description:
+ *         keyword类型：不分词的文本数据类型
+ *         text类型：支持分词的文本数据类型
+ *
+ *         matchPhraseQuery：不会对关键词进行分词搜索
+ *         matchQuery：会进行分词搜索
+ *         termQuery：完全匹配 term做精确查询可以用它来处理数字，布尔值，日期以及文本。查询数字时问题不大，但是当查询字符串时会有问题
  * @Date: Created on 5:29 下午 2020/3/5
  */
 @RunWith(SpringRunner.class)

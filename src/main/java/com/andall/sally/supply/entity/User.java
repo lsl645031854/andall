@@ -27,7 +27,7 @@ public class User implements Serializable {
     @SyncAnnotation(sort = 0, type = String.class)
     private String userName;
     @SyncAnnotation(sort = 1, type = Integer.class)
-    private Integer age;
+    private int age;
     @SyncAnnotation(sort = 2, type = Date.class)
     private Date birthday;
     @SyncAnnotation(sort = 3, type = Boolean.class)
