@@ -24,11 +24,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class GuavaTest {
 
-    private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 10, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(200), new ThreadPoolExecutor.CallerRunsPolicy());
+    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4, 10, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(200), new ThreadPoolExecutor.CallerRunsPolicy());
 
-    private static ListeningExecutorService listeningExecutorService = MoreExecutors.listeningDecorator(threadPoolExecutor);
+    private static final ListeningExecutorService listeningExecutorService = MoreExecutors.listeningDecorator(threadPoolExecutor);
 
-    private static Map<String, User> userMap = new HashMap<>();
+    private static final Map<String, User> userMap = new HashMap<>();
 
     static {
         userMap.put("aaa", new User("tom", "123", 18));
