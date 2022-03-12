@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,7 +23,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class WXBizMsgCryptTest {
-	String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
+	String encodingAesKey = Base64.encodeBase64String(UUID.randomUUID().toString().replaceAll("-","").getBytes()); ;
 	String token = "pamtest";
 	String timestamp = "1409304348";
 	String nonce = "xxxxxx";

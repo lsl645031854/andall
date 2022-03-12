@@ -14,7 +14,7 @@ public class SensitivewordEngine {
     /**
      * 敏感词库
      */
-    public static Map sensitiveWordMap = null;
+    public static Map<String, Object> sensitiveWordMap = null;
 
     /**
      * 只过滤最小敏感词
@@ -45,12 +45,16 @@ public class SensitivewordEngine {
      * @param matchType
      * @return
      */
-    public static boolean isContaintSensitiveWord(String txt, int matchType) {
+    public static boolean isContainSensitiveWord(String txt, int matchType) {
         boolean flag = false;
         for (int i = 0; i < txt.length(); i++) {
             int matchFlag = checkSensitiveWord(txt, i, matchType);
             if (matchFlag > 0) {
                 flag = true;
+            }
+            // 匹配到敏感词结束循环
+            if (flag) {
+                break;
             }
         }
         return flag;
@@ -119,20 +123,15 @@ public class SensitivewordEngine {
 
     /**
      * 检查敏感词数量
-     *
-     * @param txt
-     * @param beginIndex
-     * @param matchType
-     * @return
      */
     public static int checkSensitiveWord(String txt, int beginIndex, int matchType) {
         boolean flag = false;
         // 记录敏感词数量
         int matchFlag = 0;
-        char word = 0;
+        String word;
         Map nowMap = SensitivewordEngine.sensitiveWordMap;
         for (int i = beginIndex; i < txt.length(); i++) {
-            word = txt.charAt(i);
+            word = String.valueOf(txt.charAt(i));
             // 判断该字是否存在于敏感词库中
             nowMap = (Map) nowMap.get(word);
             if (nowMap != null) {

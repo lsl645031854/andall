@@ -1,6 +1,5 @@
 package com.andall.sally.supply.handle;
 
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: lsl

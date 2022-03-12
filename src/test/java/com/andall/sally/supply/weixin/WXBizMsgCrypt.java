@@ -56,7 +56,7 @@ public class WXBizMsgCrypt {
 	public WXBizMsgCrypt(String token, String encodingAesKey, String appId) throws AesException {
 		this.token = token;
 		this.appId = appId;
-		aesKey = Base64.decodeBase64(encodingAesKey + "=");
+		aesKey = Base64.decodeBase64(encodingAesKey);
 	}
 
 	// 生成4个字节的网络字节序

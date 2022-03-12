@@ -1,5 +1,9 @@
 package com.andall.sally.supply.sensitive;
 
+import org.junit.platform.commons.util.StringUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,13 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import org.junit.platform.commons.util.StringUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 /**
  * 敏感词库初始化 在实现文字过滤的算法中，DFA是唯一比较好的实现算法
@@ -24,14 +23,14 @@ public class SensitiveWordInit {
     /**
      * 敏感词库
      */
-    private HashMap sensitiveWordMap;
+    private static Map<String, Object> sensitiveWordMap;
 
     /**
      * 初始化敏感词
      *
      * @return
      */
-    public Map initKeyWord() {
+    public Map<String, Object> initKeyWord() {
         try {
             // 从敏感词集合对象中取出敏感词并封装到Set集合中
             Resource res = new ClassPathResource("/sensitiveWord.txt");
@@ -64,41 +63,33 @@ public class SensitiveWordInit {
     @SuppressWarnings("all")
     private void addSensitiveWordToHashMap(Set<String> keyWordSet) {
         // 初始化HashMap对象并控制容器的大小
-        sensitiveWordMap = new HashMap(keyWordSet.size());
-        // 敏感词
-        String key = null;
-        // 用来按照相应的格式保存敏感词库数据
-        Map nowMap = null;
+        sensitiveWordMap = new HashMap<>(keyWordSet.size());
         // 用来辅助构建敏感词库
-        Map<String, String> newWorMap = null;
+        Map<String, Object> newWorMap;
+        // 用来按照相应的格式保存敏感词库数据
+        Map<String, Object> nowMap;
         // 使用一个迭代器来循环敏感词集合
-        Iterator<String> iterator = keyWordSet.iterator();
-        while (iterator.hasNext()) {
-            key = iterator.next();
+        for (String keyWord : keyWordSet) {
             // 等于敏感词库，HashMap对象在内存中占用的是同一个地址，所以此nowMap对象的变化，sensitiveWordMap对象也会跟着改变
             nowMap = sensitiveWordMap;
-            for (int i = 0; i < key.length(); i++) {
+            for (int i = 0; i < keyWord.length(); i++) {
                 // 截取敏感词当中的字，在敏感词库中字为HashMap对象的Key键值
-                char keyChar = key.charAt(i);
-
+                String key = String.valueOf(keyWord.charAt(i));
                 // 判断这个字是否存在于敏感词库中
-                Object wordMap = nowMap.get(keyChar);
+                Object wordMap = nowMap.get(key);
                 if (wordMap != null) {
                     nowMap = (Map) wordMap;
                 } else {
-                    newWorMap = new HashMap<String, String>();
+                    newWorMap = new HashMap<>();
                     newWorMap.put("isEnd", "0");
-                    nowMap.put(keyChar, newWorMap);
+                    nowMap.put(key, newWorMap);
                     nowMap = newWorMap;
                 }
-
                 // 如果该字是当前敏感词的最后一个字，则标识为结尾字
-                if (i == key.length() - 1) {
+                if (i == keyWord.length() - 1) {
                     nowMap.put("isEnd", "1");
                 }
-                System.out.println("封装敏感词库过程：" + sensitiveWordMap);
             }
-            System.out.println("查看敏感词库数据:" + sensitiveWordMap);
         }
     }
 }

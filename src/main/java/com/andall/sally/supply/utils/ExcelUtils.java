@@ -1,96 +1,113 @@
 package com.andall.sally.supply.utils;
 
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.context.AnalysisContext;
-import com.alibaba.excel.event.AnalysisEventListener;
-import com.alibaba.excel.metadata.BaseRowModel;
-import com.alibaba.excel.metadata.Sheet;
-import com.andall.sally.supply.model.FileModel;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelWriter;
+import com.andall.sally.supply.annotation.ExcelFields;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * @Author: lsl
- * @Description:
- * @Date: Created on 5:38 下午 2020/3/4
+ * @author xubangbang
+ * @date 2021/7/20 13:23
  */
-@Component
-@Slf4j
 public class ExcelUtils {
 
-    public <T extends BaseRowModel> List<T> parseExcel(FileModel request, Class<T> clazz) {
-        List<T> propertyList = new ArrayList<>();
-        if (request.getContent().length == 0) {
-            log.info("文件为空");
-            return null;
-        }
-        InputStream inputStream = null;
-        try {
-            inputStream = new ByteArrayInputStream(request.getContent());
-            ExcelReader reader = new ExcelReader(inputStream, null,
-                    new AnalysisEventListener<T>() {
-                        @Override
-                        public void invoke(T object, AnalysisContext context) {
-                            log.info("当前sheet:" + context.getCurrentSheet().getSheetNo() + " 当前行：" + context.getCurrentRowNum()
-                                    + " data:" + object);
-                            if (!isAllFieldNull(object)) {
-                                propertyList.add(object);
-                            }
-                        }
 
-                        @Override
-                        public void doAfterAllAnalysed(AnalysisContext context) {
-                        }
+    /**
+     * 将实体数据写入至Excel输出流
+     *
+     * @param data 数据
+     * @param <T>
+     * @return
+     */
+    public static <T> ByteArrayOutputStream exportDataOutputStream(List<T> data) {
+        ExcelWriter writer = new ExcelWriter();
+        writer.writeRow(getTitlesByModel(data.get(0).getClass())).write(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        writer.flush(outputStream).close();
+        return outputStream;
+    }
 
-                    });
-            reader.read(new Sheet(1, 1, clazz));
-        } catch (Exception e) {
-            log.info("解析数据报错:{}", e.getLocalizedMessage());
-            throw new RuntimeException();
-        } finally {
-            try {
-                assert inputStream != null;
-                inputStream.close();
-            } catch (IOException e) {
-                log.info("解析数据报错:{}", e.getLocalizedMessage());
+    /**
+     * 将实体数据写入至Excel输出流
+     *
+     * @param data 数据
+     * @param <T>
+     * @return
+     */
+    public static <T> ByteArrayOutputStream exportBaseDataOutputStream(List<T> data) {
+        ExcelWriter writer = new ExcelWriter();
+        writer.write(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        writer.flush(outputStream).close();
+        return outputStream;
+    }
+
+    /**
+     * 获取实体类属性上 ExcelFields注解的标题值，如果没有 就去属性名
+     *
+     * @param model 实体类型
+     * @return 标题集合
+     * @see ExcelFields excel标题注解
+     */
+    private static List<String> getTitlesByModel(Class<?> model) {
+        Object t1 = ReflectUtil.newInstance(model);
+        Field[] declaredFields = t1.getClass().getDeclaredFields();
+        return Stream.of(declaredFields).map(filed -> {
+            ExcelFields annotation = filed.getAnnotation(ExcelFields.class);
+            String result = filed.getName();
+            if (annotation != null && StringUtils.isNotBlank(annotation.value())) {
+                result = annotation.value();
             }
-        }
-        return propertyList;
+            return result;
+        }).collect(Collectors.toList());
     }
 
 
-    public  boolean isAllFieldNull(Object obj) {
-        boolean flag = true;
-        try {
-            // 得到类对象
-            Class stuCla = (Class) obj.getClass();
-            //得到属性集合
-            Field[] fs = stuCla.getDeclaredFields();
-            //遍历属性
-            for (Field f : fs) {
-                // 设置属性是可以访问的(私有的也可以)
-                f.setAccessible(true);
-                // 得到此属性的值
-                Object val = null;
-
-                val = f.get(obj);
-                //只要有1个属性不为空,那么就不是所有的属性值都为空
-                if (val != null) {
-                    flag = false;
-                    break;
+    /**
+     * 读取数据文件为指定对象
+     *
+     * @param inputStream excel文档
+     * @param clazz       指定的class对象 ，对应的对象字段要有 {@link ExcelFields#value()} 标题值需要与excel文档第一行标题一致
+     * @param <T>         泛型对象
+     * @return 返回集合泛型对象
+     */
+    public static <T> List<T> readInputStreamData(InputStream inputStream, Class<T> clazz) {
+        List<Map<String, Object>> maps = readInputStreamData(inputStream);
+        return maps.stream().map(map -> {
+            T t = ReflectUtil.newInstance(clazz);
+            Field[] declaredFields = clazz.getDeclaredFields();
+            for (Field filed : declaredFields) {
+                ExcelFields annotation = filed.getAnnotation(ExcelFields.class);
+                if (annotation == null) {
+                    continue;
+                }
+                String titleValue = annotation.value();
+                for (String k : map.keySet()) {
+                    if (titleValue.equals(k)) {
+                        filed.setAccessible(true);
+                        if (map.get(k) != null) {
+                            ReflectUtil.setFieldValue(t, filed, map.get(k).toString());
+                        }
+                        break;
+                    }
                 }
             }
-        } catch (IllegalAccessException e) {
-            log.error("判断对象属性是否全部为空方法出错", e);
-        }
-
-        return flag;
+            return t;
+        }).collect(Collectors.toList());
     }
+
+    public static List<Map<String, Object>> readInputStreamData(InputStream inputStream) {
+        ExcelReader reader = new ExcelReader(inputStream, 0, true);
+        return reader.readAll();
+    }
+
 }
