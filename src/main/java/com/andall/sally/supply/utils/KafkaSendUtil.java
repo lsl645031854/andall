@@ -57,6 +57,38 @@ public class KafkaSendUtil {
         });
     }
 
+    /**
+     * 指定partition发送消息
+     *
+     * @description
+     * @param topic topic
+     * @param data 数据
+     */
+    public void sendMessageSpecifyPartition(String topic, String data) {
+        Map<String, String> context = MDC.getCopyOfContextMap();
+        int partition;
+        List<PartitionInfo> partitionInfos = kafkaTemplate.partitionsFor(topic);
+
+        partition = partitionInfos.stream().mapToInt(PartitionInfo::partition).min().orElse(0);
+
+        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, partition, "", data);
+        future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                MDC.setContextMap(context);
+                logger.info("kafka sendMessageSpecifyPartition error, ex = {}, topic = {}, data = {}", ex, topic, data);
+                MDC.clear();
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                MDC.setContextMap(context);
+                logger.debug("kafka sendMessageSpecifyPartition success topic = {}, data = {}", topic, data);
+                MDC.clear();
+            }
+        });
+    }
+
     public boolean checkKafka() {
         try {
             Properties pro1 = new Properties();

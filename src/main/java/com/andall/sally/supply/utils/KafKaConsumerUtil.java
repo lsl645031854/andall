@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class KafKaConsumerUtil {
 
-    @KafkaListener(topics = { "test"}, containerFactory = "notifyKafkaListenerContainerFactory")
+    @KafkaListener(topics = {"test"}, containerFactory = "notifyKafkaListenerContainerFactory")
     public void consumeMsg(ConsumerRecord<?, ?> record, Acknowledgment ack) {
         log.info("开始kafka消费: {}", record.value().toString());
+
+        ack.acknowledge();
     }
 
 
