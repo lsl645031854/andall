@@ -2,6 +2,8 @@ package com.andall.sally.supply.template;
 
 import com.alibaba.fastjson.JSON;
 import com.andall.sally.supply.entity.User;
+import com.andall.sally.supply.entity.UserEntity;
+import com.andall.sally.supply.mapper.UserEntityMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +34,20 @@ public class RedisTemplateTest {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private UserEntityMapper userEntityMapper;
+
+
+    @Test
+    public void testSelectOne() {
+        UserEntity userEntity = userEntityMapper.selectByPrimaryKey(1L);
+        System.out.println(userEntity);
+    }
+
+
     @Test
     public void test() {
-        Object aw_key = redisTemplate.opsForValue().get("AW_KEY");
+        Object aw_key = redisTemplate.opsForValue().get("My_Test_Key");
         System.out.println(aw_key);
     }
 

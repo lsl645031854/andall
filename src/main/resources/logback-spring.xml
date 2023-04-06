@@ -7,9 +7,9 @@
     <!-- Example for logging into the build folder of your project -->
     <springProperty scope="context" name="springAppName" source="spring.application.name" />
     <springProperty scope="context" name="logLevel" source="logging.root.level" />
-    <property name="LOG_FILE" value="/Users/lsl/logs/supply" />
-    <property name="JSON_FILE" value="/Users/lsl/logs/supply" />
-    <property name="ZIP_FILE" value="/Users/lsl/logs/supply" />
+    <property name="LOG_FILE" value="/Users/shuailingli/logs/supply" />
+    <property name="JSON_FILE" value="/Users/shuailingli/logs/supply" />
+    <property name="ZIP_FILE" value="/Users/shuailingli/logs/supply" />
     ​
     <!-- You can override this to have a custom pattern -->
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([%t]){faint} %clr(%-5level) %clr([%logger:%L]){blue} %clr([%X{sessionId}]){faint} %clr(%m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}){yellow}" />
