@@ -1,6 +1,5 @@
 package com.andall.sally.supply.utils;
 
-import com.andall.sally.supply.domain.SensitiveDTO;
 import com.andall.sally.supply.domain.StaffDTO;
 import org.junit.Test;
 

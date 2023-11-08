@@ -1,6 +1,7 @@
 package com.andall.sally.supply.utils;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -549,6 +550,17 @@ public class TestUtils {
     private void buildUser(Integer age) {
         User user = new User();
         user.setAge(age);
+    }
+
+
+    @Test
+    public void testFile() {
+        File file = new File("/Users/shuailingli/Downloads/斯佳丽.jpeg");
+        byte[] bytes = FileUtil.readBytes(file);
+        byte[] encodeBytes = Base64.getEncoder().encode(bytes);
+        byte[] decodeBytes = Base64.getDecoder().decode(encodeBytes);
+        FileUtil.writeBytes(decodeBytes, new File("/Users/shuailingli/Downloads" +
+                "/11/斯佳丽.jpeg"));
     }
 
 }
