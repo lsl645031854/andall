@@ -9,11 +9,12 @@ import org.springframework.context.ApplicationEvent;
  * @Date: Created on 2:19 下午 2020/3/3
  */
 @Slf4j
-public class NoitceEvent extends ApplicationEvent {
+public class NoticeEvent extends ApplicationEvent {
 
-    private String message;
+    private static final long serialVersionUID = 277529295943419873L;
+    private final String message;
 
-    public NoitceEvent(String message) {
+    public NoticeEvent(String message) {
         super(message);
         this.message = message;
         log.info("add event success, message:{}", message);

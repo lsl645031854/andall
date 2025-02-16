@@ -1,5 +1,7 @@
 package com.andall.sally.supply.utils;
 
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.models.auth.In;
@@ -55,9 +57,23 @@ public class RegexTest {
     @Test
     public void test1() {
         // 判断手机号
-        String regex = "(\\d{3})\\d{4}(\\d{4})";
+        String regex = "(.{3}).{4}(.{4})";
         String mobile = "13924672341";
         String replace = mobile.replaceAll(regex, "$1****$2");
+        System.out.println(replace);
+    }
+
+
+    @Test
+    public void test101() {
+        String s = "pp123456";
+        int length = s.length();
+        String regex = "(.{1}).{" + (length - 3) + "}(.{2})";
+
+        String placeholder = RandomUtil.randomString("*", length-3);
+        String replacement = "$1" + placeholder + "$2";
+
+        String replace = s.replaceAll(regex, replacement);
         System.out.println(replace);
     }
 
@@ -101,6 +117,23 @@ public class RegexTest {
         Matcher matcher = pattern.matcher(content);
         while(matcher.find()){
             System.out.println(matcher.group());
+        }
+    }
+
+    public static void main(String[] args) {
+        //  .* 表示贪婪匹配，尽可能多地匹配字符。
+        //  .*? 表示非贪婪匹配，尽可能少地匹配字符。
+        String text = "重要提示:部分已使用客票退票仅退还未使用航段税费。变更航班或舱位如有差价需补足。客票有效期一年；退票不得晚于有效期截止后一个月之内办理；特殊折扣机票退改签按其相应规定执行。已打印行程单的客票办理退票时，须先回收行程单后方可完成退款（邮费自理）。";
+
+        Pattern pattern = Pattern.compile("(?<=:)(.*?)。");
+
+//        String s = text.replaceAll("(?<=:)(.*?)。", "");
+//        System.out.println(s);
+
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            System.out.println("匹配的字符串: " + matcher.group());
         }
     }
 

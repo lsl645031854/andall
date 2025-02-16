@@ -1,6 +1,6 @@
 package com.andall.sally.supply.listener;
 
-import com.andall.sally.supply.event.NoitceEvent;
+import com.andall.sally.supply.event.NoticeEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
@@ -17,17 +17,17 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 @Order(1)
-public class NoticeListener implements ApplicationListener<NoitceEvent> {
+public class NoticeListener implements ApplicationListener<NoticeEvent> {
 
     @Override
     @Async
-    public void onApplicationEvent(NoitceEvent noitceEvent) {
+    public void onApplicationEvent(NoticeEvent noticeEvent) {
         log.info("onApplicationEvent will sleep 2s");
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
         }
-       log.info("NoticeListener get event, message:{}", noitceEvent.getMessage());
+       log.info("NoticeListener get event, message:{}", noticeEvent.getMessage());
     }
 }

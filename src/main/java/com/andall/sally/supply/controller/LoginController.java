@@ -4,7 +4,7 @@ import com.andall.sally.supply.common.RestResponse;
 import com.andall.sally.supply.constant.MqConstant;
 import com.andall.sally.supply.entity.User;
 import com.andall.sally.supply.entity.UserEntity;
-import com.andall.sally.supply.event.NoitceEvent;
+import com.andall.sally.supply.event.NoticeEvent;
 import com.andall.sally.supply.req.SearchReq;
 import com.andall.sally.supply.service.UserService;
 import com.andall.sally.supply.service.impl.LogService;
@@ -12,7 +12,6 @@ import com.andall.sally.supply.utils.KafkaSendUtil;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -54,7 +53,7 @@ public class LoginController {
     @ApiOperation("用户登陆")
     public RestResponse login(@RequestBody User user) {
         log.info("登陆用户：{}", user.toString());
-        this.applicationEventPublisher.publishEvent(new NoitceEvent(user.getUserName()));
+        this.applicationEventPublisher.publishEvent(new NoticeEvent(user.getUserName()));
         return RestResponse.success(user.getUserName());
     }
 
@@ -99,5 +98,15 @@ public class LoginController {
     public RestResponse log () {
         logService.log();
         return RestResponse.success();
+    }
+
+
+    public static void main(String[] args) {
+        int i = 100;
+        int j = i;
+        j--;
+        System.out.println(i);
+        System.out.println(j);
+
     }
 }

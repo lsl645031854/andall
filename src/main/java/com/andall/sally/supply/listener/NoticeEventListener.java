@@ -1,6 +1,6 @@
 package com.andall.sally.supply.listener;
 
-import com.andall.sally.supply.event.NoitceEvent;
+import com.andall.sally.supply.event.NoticeEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
@@ -17,7 +17,7 @@ public class NoticeEventListener {
 
     @EventListener
     @Order(2)
-    public void handler(NoitceEvent event) {
+    public void handler(NoticeEvent event) {
         log.info("触发");
     }
 

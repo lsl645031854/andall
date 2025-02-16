@@ -5,6 +5,8 @@ import com.andall.sally.supply.entity.User;
 import com.andall.sally.supply.handle.BaseMsgHandler;
 import com.andall.sally.supply.strategy.MsgStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
+import org.jpedal.parser.shape.S;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +51,19 @@ public class TaskPoolTest {
 //        System.out.println("还剩"+threadPoolExecutor.getQueue().size()+"个任务");
 //        System.out.println("当前可用队列长度"+threadPoolExecutor.getQueue().remainingCapacity());
 
-        asyncExecutor.shutdown();
-        Callable<String> call1 = () -> "456";
-        Future<String> submit1 = asyncExecutor.submit(call1);
-        System.out.println(submit1.get());
+        System.out.println(submit.get());
+        System.out.println(submit.get());
+
+        System.gc();
+        Thread.sleep(5000);
+        System.out.println(submit.get());
+        System.out.println(submit.get());
+        System.out.println(submit.get());
+
+//        asyncExecutor.shutdown();
+//        Callable<String> call1 = () -> "456";
+//        Future<String> submit1 = asyncExecutor.submit(call1);
+//        System.out.println(submit1.get());
     }
 
     @Test
